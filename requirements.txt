@@ -1,0 +1,44 @@
+# Core
+fastapi==0.129.0
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+python-dotenv==1.0.1
+pydantic==2.10.0
+
+# Database
+psycopg2-binary==2.9.10
+sqlalchemy==2.0.37
+alembic==1.18.5
+
+# Vector store
+qdrant-client==1.16.2
+
+# Persistent document objects
+google-cloud-storage==3.3.0
+
+# Embeddings and reranking
+torch==2.12.0
+sentence-transformers==5.2.2
+transformers==4.57.6
+huggingface-hub==0.36.0
+
+# BM25 keyword search
+whoosh==2.7.4
+
+# PDF parsing
+pdfplumber==0.11.6
+
+# LLM (new SDK — google-generativeai is deprecated)
+google-genai==1.63.0
+
+# Auth
+pyjwt==2.10.1
+pwdlib[argon2]==0.3.0
+
+# PDF generation (corpus build)
+fpdf2==2.8.3
+
+# Testing
+pytest==8.3.4
+pytest-cov==6.0.0
+httpx==0.28.1
