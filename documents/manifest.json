@@ -1,0 +1,408 @@
+[
+  {
+    "path": "hr/employee_handbook.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Employee Handbook",
+    "source_id": null
+  },
+  {
+    "path": "hr/code_of_conduct.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Code of Conduct",
+    "source_id": null
+  },
+  {
+    "path": "hr/onboarding_guide.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Onboarding Guide",
+    "source_id": null
+  },
+  {
+    "path": "hr/compensation_policy.md",
+    "department": "HR",
+    "classification": "restricted",
+    "title": "Compensation Policy",
+    "source_id": null
+  },
+  {
+    "path": "hr/benefits_guide.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Benefits Guide",
+    "source_id": "SRC-01"
+  },
+  {
+    "path": "hr/leave_policy.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Leave Policy",
+    "source_id": "SRC-01"
+  },
+  {
+    "path": "hr/disciplinary_policy.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Disciplinary Policy",
+    "source_id": "SRC-03"
+  },
+  {
+    "path": "hr/performance_reviews.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Performance Review Process",
+    "source_id": "SRC-02"
+  },
+  {
+    "path": "hr/remote_work_detailed.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Remote Work Policy (Detailed)",
+    "source_id": "SRC-02"
+  },
+  {
+    "path": "engineering/api_documentation.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "API Documentation",
+    "source_id": null
+  },
+  {
+    "path": "engineering/incident_report_5023.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Incident Report INC-5023",
+    "source_id": null
+  },
+  {
+    "path": "engineering/architecture_overview.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Architecture Overview",
+    "source_id": "SRC-08"
+  },
+  {
+    "path": "engineering/coding_standards.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Coding Standards",
+    "source_id": null
+  },
+  {
+    "path": "engineering/incident_response_process.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Incident Response Process",
+    "source_id": "SRC-04"
+  },
+  {
+    "path": "engineering/on_call_runbook.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "On-Call Runbook",
+    "source_id": "SRC-05"
+  },
+  {
+    "path": "engineering/deployment_runbook.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Deployment Runbook",
+    "source_id": "SRC-05"
+  },
+  {
+    "path": "engineering/security_policy.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Security Policy",
+    "source_id": null
+  },
+  {
+    "path": "engineering/monitoring_guide.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Monitoring and SLO Guide",
+    "source_id": null
+  },
+  {
+    "path": "engineering/database_operations.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Database Operations Guide",
+    "source_id": null
+  },
+  {
+    "path": "sales/pricing_tiers.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "Pricing Tiers",
+    "source_id": null
+  },
+  {
+    "path": "sales/customer_case_study.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "Customer Case Study - BigCorp",
+    "source_id": null
+  },
+  {
+    "path": "sales/competitive_analysis.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "Competitive Analysis",
+    "source_id": null
+  },
+  {
+    "path": "sales/sales_playbook.md",
+    "department": "Sales",
+    "classification": "restricted",
+    "title": "Sales Playbook",
+    "source_id": null
+  },
+  {
+    "path": "sales/objection_handling.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "Objection Handling Guide",
+    "source_id": "SRC-07"
+  },
+  {
+    "path": "sales/crm_workflow.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "CRM Workflow",
+    "source_id": "SRC-07"
+  },
+  {
+    "path": "sales/enterprise_faq.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "Enterprise Sales FAQ",
+    "source_id": "SRC-07"
+  },
+  {
+    "path": "sales/renewal_playbook.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "Renewal Playbook",
+    "source_id": "SRC-07"
+  },
+  {
+    "path": "sales/quota_commission_guide.md",
+    "department": "Sales",
+    "classification": "restricted",
+    "title": "Quota and Commission Guide",
+    "source_id": "SRC-07"
+  },
+  {
+    "path": "engineering/service_registry.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Service Registry",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/team_ownership.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Team Ownership",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/integration_map.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Integration Map",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/data_flow_payments.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Payment Data Flow",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/incident_report_5041.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Incident Report INC-5041",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/payment_outage_postmortem.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Payment Outage Postmortem",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/internal_api_keys.md",
+    "department": "Engineering",
+    "classification": "restricted",
+    "title": "Internal API Keys",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/deployment_policy_2024.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Deployment Policy 2024",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/deployment_policy_2025.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Deployment Policy 2025",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/auth_service_overview.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Auth Service Overview",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/notification_pipeline.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Notification Pipeline",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/search_indexing_guide.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Search Indexing Guide",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/platform_dependencies.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Platform Dependencies",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/customer_checkout_flow.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Customer Checkout Flow",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/data_residency_policy.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Data Residency Policy",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/secrets_rotation_runbook.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Secrets Rotation Runbook",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "engineering/vendor_integrations.md",
+    "department": "Engineering",
+    "classification": "public",
+    "title": "Vendor Integrations",
+    "source_id": "SRC-09"
+  },
+  {
+    "path": "hr/remote_work_policy_v1.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Remote Work Policy v1",
+    "source_id": "SRC-02"
+  },
+  {
+    "path": "hr/remote_work_policy_v2.md",
+    "department": "HR",
+    "classification": "public",
+    "title": "Remote Work Policy v2",
+    "source_id": "SRC-02"
+  },
+  {
+    "path": "sales/enterprise_discount_policy.md",
+    "department": "Sales",
+    "classification": "public",
+    "title": "Enterprise Discount Policy",
+    "source_id": "SRC-07"
+  },
+  {
+    "path": "hr/employee_handbook.pdf",
+    "title": "Employee Handbook (PDF)",
+    "department": "HR",
+    "classification": "public",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "hr/compensation_policy.pdf",
+    "title": "Compensation Policy (PDF)",
+    "department": "HR",
+    "classification": "restricted",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "hr/leave_policy.pdf",
+    "title": "Leave Policy (PDF)",
+    "department": "HR",
+    "classification": "public",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "engineering/incident_report_5023.pdf",
+    "title": "Incident Report INC-5023 (PDF)",
+    "department": "Engineering",
+    "classification": "public",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "engineering/architecture_overview.pdf",
+    "title": "Architecture Overview (PDF)",
+    "department": "Engineering",
+    "classification": "public",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "engineering/on_call_runbook.pdf",
+    "title": "On-Call Runbook (PDF)",
+    "department": "Engineering",
+    "classification": "public",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "sales/pricing_tiers.pdf",
+    "title": "Pricing Tiers (PDF)",
+    "department": "Sales",
+    "classification": "public",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "sales/quota_commission_guide.pdf",
+    "title": "Quota and Commission Guide (PDF)",
+    "department": "Sales",
+    "classification": "restricted",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "sales/sales_playbook.pdf",
+    "title": "Sales Playbook (PDF)",
+    "department": "Sales",
+    "classification": "restricted",
+    "source_id": "PDF-GEN"
+  },
+  {
+    "path": "sales/customer_case_study.pdf",
+    "title": "Customer Case Study - BigCorp (PDF)",
+    "department": "Sales",
+    "classification": "public",
+    "source_id": "PDF-GEN"
+  }
+]
