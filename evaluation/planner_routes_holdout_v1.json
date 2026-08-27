@@ -1,0 +1,36 @@
+{
+  "version": "1.0",
+  "provenance": "Agent-reviewed holdout; frozen before local completion metrics.",
+  "routes": ["local", "global", "multi_hop", "temporal", "comparison"],
+  "cases": [
+    {"query": "How many sick days do employees get?", "route": "local"},
+    {"query": "What is the dental coverage limit?", "route": "local"},
+    {"query": "Who maintains the on-call rotation?", "route": "local"},
+    {"query": "What is the maximum API request rate on Pro tier?", "route": "local"},
+    {"query": "What caused incident INC-5041?", "route": "local"},
+
+    {"query": "Summarize everything documented about company operations.", "route": "global"},
+    {"query": "Provide a broad overview of all Engineering documentation.", "route": "global"},
+    {"query": "What are the recurring themes throughout the corpus?", "route": "global"},
+    {"query": "Survey the whole knowledge base for compliance risks.", "route": "global"},
+    {"query": "Give an organization-wide overview of documented policies.", "route": "global"},
+
+    {"query": "Trace the dependency chain from Web App to PostgreSQL.", "route": "multi_hop"},
+    {"query": "Which services lie between the frontend and the database?", "route": "multi_hop"},
+    {"query": "How does API Gateway ultimately reach Stripe?", "route": "multi_hop"},
+    {"query": "What downstream systems depend on Auth Service?", "route": "multi_hop"},
+    {"query": "Show the dependency path from document upload to search.", "route": "multi_hop"},
+
+    {"query": "What is the current PTO allowance?", "route": "temporal"},
+    {"query": "What was the deployment policy before the migration?", "route": "temporal"},
+    {"query": "How has the security policy changed since 2024?", "route": "temporal"},
+    {"query": "What policy was effective on January 1 2024?", "route": "temporal"},
+    {"query": "Which runbook was effective before the platform migration?", "route": "temporal"},
+
+    {"query": "Compare sick leave and bereavement policies.", "route": "comparison"},
+    {"query": "Contrast Starter and Enterprise pricing tiers.", "route": "comparison"},
+    {"query": "How do public and confidential classifications differ?", "route": "comparison"},
+    {"query": "Side by side view of HR and Engineering access rules.", "route": "comparison"},
+    {"query": "Which is stricter: upload policy or retention policy?", "route": "comparison"}
+  ]
+}

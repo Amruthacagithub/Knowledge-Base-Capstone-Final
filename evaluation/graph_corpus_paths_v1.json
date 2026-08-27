@@ -1,0 +1,143 @@
+{
+  "version": "1.0",
+  "sources": [
+    {
+      "path": "documents/engineering/architecture_overview.md",
+      "sha256": "18f0cd196817634a9e523e28b1c62abda617f0e2249a7259571dfb5f41fdc7e4"
+    },
+    {
+      "path": "documents/engineering/database_operations.md",
+      "sha256": "f546f2942b112a96257b1652438b0705e663ecd8b62500e7f4b2b554b6236e50"
+    },
+    {
+      "path": "documents/engineering/deployment_runbook.md",
+      "sha256": "b00dd137ea4e173f008dd8fc85dd27ae138467d6f47beee49aaf4b0acda8b64e"
+    },
+    {
+      "path": "documents/engineering/incident_report_5023.md",
+      "sha256": "0fffa0f5d94c9f904910f7b13946eb65cd93c543fad921b01e23f9e3be898457"
+    }
+  ],
+  "cases": [
+    {
+      "id": "deployment-two-hop",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "github_actions"],
+      "query": "How does production deployment reach EKS?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [
+        ["github_actions", "argo_cd"],
+        ["github_actions", "argo_cd", "eks"]
+      ],
+      "expected_top_path": ["github_actions", "argo_cd", "eks"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "deployment-depth-bound",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "github_actions"],
+      "query": "What is the first deployment handoff?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [["github_actions", "argo_cd"]],
+      "expected_top_path": ["github_actions", "argo_cd"],
+      "forbidden_entities": ["eks"]
+    },
+    {
+      "id": "document-service-fanout",
+      "roles": ["Employee"],
+      "start": ["system", "document_service"],
+      "query": "Which search system does Document Service integrate with?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["document_service", "search_engine"],
+        ["document_service", "elasticsearch"],
+        ["document_service", "s3"]
+      ],
+      "expected_top_path": ["document_service", "search_engine"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "billing-connectivity",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "billing_service"],
+      "query": "How does Billing Service connect to Stripe?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["billing_service", "stripe"],
+        ["billing_service", "payment_gateway"]
+      ],
+      "expected_top_path": ["billing_service", "stripe"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "notification-fanout",
+      "roles": ["Employee"],
+      "start": ["system", "notification_service"],
+      "query": "What external systems does Notification Service depend on?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["notification_service", "sendgrid"],
+        ["notification_service", "slack"]
+      ],
+      "forbidden_entities": []
+    },
+    {
+      "id": "gateway-routing",
+      "roles": ["Employee"],
+      "start": ["system", "kong_gateway"],
+      "query": "Where does Kong Gateway route clients?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [["kong_gateway", "user_service"]],
+      "expected_top_path": ["kong_gateway", "user_service"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "postgres-deployment",
+      "roles": ["Employee"],
+      "start": ["system", "postgresql"],
+      "query": "Where is PostgreSQL deployed?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [["postgresql", "aws_rds"]],
+      "expected_top_path": ["postgresql", "aws_rds"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "redis-deployment",
+      "roles": ["Employee"],
+      "start": ["system", "redis"],
+      "query": "Where is Redis deployed?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [["redis", "elasticache"]],
+      "expected_top_path": ["redis", "elasticache"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "launchdarkly-no-explicit-path",
+      "roles": ["Employee"],
+      "start": ["system", "launchdarkly"],
+      "query": "What incident system does LaunchDarkly mitigate?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [],
+      "forbidden_entities": []
+    },
+    {
+      "id": "incident-no-outgoing-path",
+      "roles": ["Employee", "Engineer"],
+      "start": ["incident", "inc_5023"],
+      "query": "What systems are directly linked from INC-5023?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [],
+      "forbidden_entities": []
+    }
+  ]
+}

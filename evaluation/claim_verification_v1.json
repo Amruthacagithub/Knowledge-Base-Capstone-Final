@@ -1,0 +1,189 @@
+{
+  "version": "1.0",
+  "provenance": "Machine-authored development set; independent human sign-off is required before publication claims.",
+  "labels": ["supported", "conflicting", "insufficient"],
+  "cases": [
+    {
+      "id": "supported-pto-paraphrase",
+      "evidence": "Full-time employees receive 20 days of paid time off each calendar year.",
+      "claim": "Full-time staff get 20 PTO days per year.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-owner-passive",
+      "evidence": "The Platform Team owns and maintains the Billing Service.",
+      "claim": "Billing Service is owned by the Platform Team.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-dependency",
+      "evidence": "Billing Service sends payment authorization requests to Stripe.",
+      "claim": "Billing Service uses Stripe for payment authorization.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-response-target",
+      "evidence": "Engineers must acknowledge SEV-1 incidents within 15 minutes.",
+      "claim": "The SEV-1 acknowledgement target is 15 minutes.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-retention",
+      "evidence": "Access audit records are retained for 90 days.",
+      "claim": "Audit logs have a 90-day retention period.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-encryption",
+      "evidence": "Customer data is encrypted at rest with AES-256.",
+      "claim": "Stored customer data uses AES-256 encryption.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-delete-policy",
+      "evidence": "Only users with the Admin role may permanently delete documents.",
+      "claim": "Permanent document deletion requires the Admin role.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-database",
+      "evidence": "The application stores relational data in PostgreSQL 16.",
+      "claim": "PostgreSQL 16 is the relational database.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-backup",
+      "evidence": "Production database backups run once every day at 02:00 UTC.",
+      "claim": "The production database is backed up daily.",
+      "expected": "supported"
+    },
+    {
+      "id": "supported-upload-limit",
+      "evidence": "Uploaded documents must not exceed 25 MB.",
+      "claim": "The document upload limit is 25 MB.",
+      "expected": "supported"
+    },
+
+    {
+      "id": "conflicting-pto-value",
+      "evidence": "Full-time employees receive 20 days of paid time off each calendar year.",
+      "claim": "Full-time employees receive 15 PTO days each year.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-owner",
+      "evidence": "The Platform Team owns and maintains the Billing Service.",
+      "claim": "The SRE Team owns Billing Service.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-dependency-negation",
+      "evidence": "Billing Service sends payment authorization requests to Stripe.",
+      "claim": "Billing Service never contacts Stripe.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-response-value",
+      "evidence": "Engineers must acknowledge SEV-1 incidents within 15 minutes.",
+      "claim": "SEV-1 incidents may wait 60 minutes for acknowledgement.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-retention-value",
+      "evidence": "Access audit records are retained for 90 days.",
+      "claim": "Access audit records are deleted after 30 days.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-encryption-negation",
+      "evidence": "Customer data is encrypted at rest with AES-256.",
+      "claim": "Customer data is stored unencrypted.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-delete-policy",
+      "evidence": "Only users with the Admin role may permanently delete documents.",
+      "claim": "Employees without Admin access may permanently delete documents.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-database",
+      "evidence": "The application stores relational data in PostgreSQL 16.",
+      "claim": "MySQL is the application's relational database.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-backup-negation",
+      "evidence": "Production database backups run once every day at 02:00 UTC.",
+      "claim": "The production database is never backed up.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "conflicting-upload-value",
+      "evidence": "Uploaded documents must not exceed 25 MB.",
+      "claim": "Documents up to 100 MB are accepted.",
+      "expected": "conflicting"
+    },
+
+    {
+      "id": "insufficient-pto-carryover",
+      "evidence": "Full-time employees receive 20 days of paid time off each calendar year.",
+      "claim": "Unused PTO automatically carries into the next year.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-owner-oncall",
+      "evidence": "The Platform Team owns and maintains the Billing Service.",
+      "claim": "The Platform Team has three on-call engineers.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-stripe-region",
+      "evidence": "Billing Service sends payment authorization requests to Stripe.",
+      "claim": "Stripe processes all requests in the EU region.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-incident-resolution",
+      "evidence": "Engineers must acknowledge SEV-1 incidents within 15 minutes.",
+      "claim": "SEV-1 incidents must be resolved within one hour.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-audit-location",
+      "evidence": "Access audit records are retained for 90 days.",
+      "claim": "Audit records are stored in the Frankfurt region.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-encryption-transit",
+      "evidence": "Customer data is encrypted at rest with AES-256.",
+      "claim": "Customer data in transit uses TLS 1.3.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-delete-restore",
+      "evidence": "Only users with the Admin role may permanently delete documents.",
+      "claim": "Deleted documents can be restored for seven days.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-database-host",
+      "evidence": "The application stores relational data in PostgreSQL 16.",
+      "claim": "The database runs on Google Cloud SQL.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-backup-retention",
+      "evidence": "Production database backups run once every day at 02:00 UTC.",
+      "claim": "Production backups are retained for 30 days.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "insufficient-upload-types",
+      "evidence": "Uploaded documents must not exceed 25 MB.",
+      "claim": "Spreadsheet uploads are supported.",
+      "expected": "insufficient"
+    }
+  ]
+}

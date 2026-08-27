@@ -1,0 +1,29 @@
+[
+  {"query": "What is the current PTO policy?", "intent": "current"},
+  {"query": "Show the latest deployment runbook.", "intent": "current"},
+  {"query": "Which security policy is in effect?", "intent": "current"},
+  {"query": "What rules apply today?", "intent": "current"},
+  {"query": "What is currently required for production deploys?", "intent": "current"},
+  {"query": "Give me the most recent compensation policy.", "intent": "current"},
+
+  {"query": "What was the PTO allowance as of June 2025?", "intent": "historical"},
+  {"query": "Show the historical security policy.", "intent": "historical"},
+  {"query": "What did the old policy require?", "intent": "historical"},
+  {"query": "Which runbook was active before the incident?", "intent": "historical"},
+  {"query": "What was the response target in 2025?", "intent": "historical"},
+  {"query": "What rules applied at the time of INC-5023?", "intent": "historical"},
+
+  {"query": "What changed in the leave policy?", "intent": "change"},
+  {"query": "How has the deployment process changed?", "intent": "change"},
+  {"query": "Compare the two policy versions.", "intent": "change"},
+  {"query": "What is the difference between versions?", "intent": "change"},
+  {"query": "Has the response target changed since 2025?", "intent": "change"},
+  {"query": "Compare the previous and current runbooks.", "intent": "change"},
+
+  {"query": "What is the PTO policy?", "intent": "none"},
+  {"query": "What caused incident 5023?", "intent": "none"},
+  {"query": "How does Billing Service connect to Stripe?", "intent": "none"},
+  {"query": "Explain the deployment process.", "intent": "none"},
+  {"query": "Who owns the API Gateway?", "intent": "none"},
+  {"query": "List company benefits.", "intent": "none"}
+]

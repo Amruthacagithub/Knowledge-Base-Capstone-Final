@@ -1,0 +1,166 @@
+{
+  "version": "1.0",
+  "provenance": "Agent-authored local answer-comparison benchmark; retrieval-level metrics.",
+  "sources": [
+    {"path": "documents/engineering/architecture_overview.md"},
+    {"path": "documents/engineering/integration_map.md"},
+    {"path": "documents/engineering/data_flow_payments.md"},
+    {"path": "documents/engineering/auth_service_overview.md"},
+    {"path": "documents/engineering/notification_pipeline.md"},
+    {"path": "documents/engineering/internal_api_keys.md"},
+    {"path": "documents/hr/leave_policy.md"},
+    {"path": "documents/sales/pricing_tiers.md"}
+  ],
+  "cases": [
+    {
+      "id": "local-pto",
+      "roles": ["Employee"],
+      "department": "HR",
+      "query": "How many PTO days do full-time employees receive?",
+      "route": "local",
+      "expected_doc_paths": ["documents/hr/leave_policy.md"],
+      "expected_entities": [],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "local-sick",
+      "roles": ["Employee"],
+      "department": "HR",
+      "query": "How many sick days are provided annually?",
+      "route": "local",
+      "expected_doc_paths": ["documents/hr/leave_policy.md"],
+      "expected_entities": [],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "local-pricing",
+      "roles": ["Employee"],
+      "department": "Sales",
+      "query": "What is the Pro tier monthly price?",
+      "route": "local",
+      "expected_doc_paths": ["documents/sales/pricing_tiers.md"],
+      "expected_entities": [],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "multihop-api-stripe",
+      "roles": ["Employee", "Engineer"],
+      "department": "Engineering",
+      "query": "How does API Gateway ultimately reach Stripe?",
+      "route": "multi_hop",
+      "expected_doc_paths": [
+        "documents/engineering/integration_map.md",
+        "documents/engineering/data_flow_payments.md"
+      ],
+      "expected_entities": ["api_gateway", "billing_service", "stripe_gateway"],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "multihop-auth-db",
+      "roles": ["Employee", "Engineer"],
+      "department": "Engineering",
+      "query": "Trace the dependency chain from Auth Service to PostgreSQL Database",
+      "route": "multi_hop",
+      "expected_doc_paths": ["documents/engineering/auth_service_overview.md"],
+      "expected_entities": ["auth_service", "user_service", "postgresql_database"],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "multihop-notification",
+      "roles": ["Employee"],
+      "department": "Engineering",
+      "query": "What downstream systems does Notification Service depend on?",
+      "route": "multi_hop",
+      "expected_doc_paths": ["documents/engineering/notification_pipeline.md"],
+      "expected_entities": ["notification_service", "sendgrid_api"],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "multihop-billing-stripe",
+      "roles": ["Employee", "Engineer"],
+      "department": "Engineering",
+      "query": "How are Billing Service and Stripe connected through the platform?",
+      "route": "multi_hop",
+      "expected_doc_paths": [
+        "documents/engineering/integration_map.md",
+        "documents/engineering/data_flow_payments.md"
+      ],
+      "expected_entities": ["billing_service", "stripe_gateway"],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "multihop-gateway-user",
+      "roles": ["Employee"],
+      "department": "Engineering",
+      "query": "Which services lie between the frontend and the database?",
+      "route": "multi_hop",
+      "expected_doc_paths": ["documents/engineering/architecture_overview.md"],
+      "expected_entities": ["api_gateway", "user_service"],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "denied-internal-keys-sales",
+      "roles": ["Employee"],
+      "department": "Sales",
+      "query": "What is the Stripe production API key?",
+      "route": "local",
+      "expected_doc_paths": [],
+      "expected_entities": [],
+      "forbidden_doc_paths": ["documents/engineering/internal_api_keys.md"],
+      "forbidden_entities": ["internal_api_key"],
+      "must_abstain": true
+    },
+    {
+      "id": "denied-internal-keys-engineer",
+      "roles": ["Employee", "Engineer"],
+      "department": "Engineering",
+      "query": "Where are Stripe production keys stored?",
+      "route": "local",
+      "expected_doc_paths": ["documents/engineering/internal_api_keys.md"],
+      "expected_entities": [],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "temporal-pto-current",
+      "roles": ["Employee"],
+      "department": "HR",
+      "query": "What is the current PTO allowance?",
+      "route": "temporal",
+      "expected_doc_paths": ["documents/hr/leave_policy.md"],
+      "expected_entities": [],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    },
+    {
+      "id": "comparison-pricing",
+      "roles": ["Employee"],
+      "department": "Sales",
+      "query": "Compare Starter and Enterprise pricing tiers",
+      "route": "comparison",
+      "expected_doc_paths": ["documents/sales/pricing_tiers.md"],
+      "expected_entities": [],
+      "forbidden_doc_paths": [],
+      "forbidden_entities": [],
+      "must_abstain": false
+    }
+  ]
+}

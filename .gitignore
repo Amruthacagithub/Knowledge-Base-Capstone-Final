@@ -1,0 +1,60 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Environment variables
+.env
+deploy/cloudrun.env.yaml
+
+# IDE
+.vscode/
+.idea/
+.playwright-mcp/
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Docker volumes (generated)
+postgres_data/
+qdrant_data/
+
+# Whoosh index (generated at runtime)
+indexdir/
+
+# ML model caches (sentence-transformers / Hugging Face)
+.cache/
+
+# Playwright output
+frontend/test-results/
+
+# Python egg/dist
+*.egg-info/
+dist/
+build/
+
+# Logs
+*.log
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Local-only archive (optional clutter; not required to run the project)
+archive/
+
+# Local start.sh PID/logs
+.run/
+
+# Local standalone runtime data (never part of the shared project)
+dev_local.db
+qdrant_storage/

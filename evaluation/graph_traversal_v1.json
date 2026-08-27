@@ -1,0 +1,168 @@
+[
+  {
+    "id": "public-two-hop",
+    "roles": ["Employee", "Engineer"],
+    "start": "a",
+    "max_depth": 2,
+    "max_paths": 20,
+    "edges": [
+      {"id": "ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "bc", "source": "b", "target": "c", "classification": "public", "department": "Engineering"}
+    ],
+    "expected_paths": [["a", "b"], ["a", "b", "c"]],
+    "forbidden_entities": [],
+    "expected_truncated": false
+  },
+  {
+    "id": "engineer-cannot-cross-hr-edge",
+    "roles": ["Employee", "Engineer"],
+    "start": "a",
+    "max_depth": 3,
+    "max_paths": 20,
+    "edges": [
+      {"id": "ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "b-secret", "source": "b", "target": "hr_secret", "classification": "restricted", "department": "HR"}
+    ],
+    "expected_paths": [["a", "b"]],
+    "forbidden_entities": ["hr_secret"],
+    "expected_truncated": false
+  },
+  {
+    "id": "hr-sees-own-restricted-edge",
+    "roles": ["Employee", "HR"],
+    "start": "a",
+    "max_depth": 2,
+    "max_paths": 20,
+    "edges": [
+      {"id": "ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "b-hr", "source": "b", "target": "hr_policy", "classification": "restricted", "department": "HR"}
+    ],
+    "expected_paths": [["a", "b"], ["a", "b", "hr_policy"]],
+    "forbidden_entities": [],
+    "expected_truncated": false
+  },
+  {
+    "id": "employee-sees-public-branch-only",
+    "roles": ["Employee"],
+    "start": "a",
+    "max_depth": 1,
+    "max_paths": 20,
+    "edges": [
+      {"id": "a-public", "source": "a", "target": "public_node", "classification": "public", "department": "Engineering"},
+      {"id": "a-sales", "source": "a", "target": "sales_secret", "classification": "restricted", "department": "Sales"}
+    ],
+    "expected_paths": [["a", "public_node"]],
+    "forbidden_entities": ["sales_secret"],
+    "expected_truncated": false
+  },
+  {
+    "id": "admin-sees-all-branches",
+    "roles": ["Employee", "Admin"],
+    "start": "a",
+    "max_depth": 1,
+    "max_paths": 20,
+    "edges": [
+      {"id": "a-public", "source": "a", "target": "public_node", "classification": "public", "department": "Engineering"},
+      {"id": "a-sales", "source": "a", "target": "sales_secret", "classification": "restricted", "department": "Sales"}
+    ],
+    "expected_paths": [["a", "public_node"], ["a", "sales_secret"]],
+    "forbidden_entities": [],
+    "expected_truncated": false
+  },
+  {
+    "id": "cycle-is-cut",
+    "roles": ["Employee", "Engineer"],
+    "start": "a",
+    "max_depth": 3,
+    "max_paths": 20,
+    "edges": [
+      {"id": "ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "ba", "source": "b", "target": "a", "classification": "public", "department": "Engineering"}
+    ],
+    "expected_paths": [["a", "b"]],
+    "forbidden_entities": [],
+    "expected_truncated": false
+  },
+  {
+    "id": "inactive-evidence-is-ignored",
+    "roles": ["Employee", "Engineer"],
+    "start": "a",
+    "max_depth": 2,
+    "max_paths": 20,
+    "edges": [
+      {"id": "ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "b-old", "source": "b", "target": "old_node", "classification": "public", "department": "Engineering", "active": false}
+    ],
+    "expected_paths": [["a", "b"]],
+    "forbidden_entities": ["old_node"],
+    "expected_truncated": false
+  },
+  {
+    "id": "historical-evidence-is-ignored",
+    "roles": ["Employee", "Engineer"],
+    "start": "a",
+    "max_depth": 2,
+    "max_paths": 20,
+    "edges": [
+      {"id": "ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "b-history", "source": "b", "target": "historical_node", "classification": "public", "department": "Engineering", "current": false}
+    ],
+    "expected_paths": [["a", "b"]],
+    "forbidden_entities": ["historical_node"],
+    "expected_truncated": false
+  },
+  {
+    "id": "depth-bound",
+    "roles": ["Employee", "Engineer"],
+    "start": "a",
+    "max_depth": 1,
+    "max_paths": 20,
+    "edges": [
+      {"id": "ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "bc", "source": "b", "target": "c", "classification": "public", "department": "Engineering"}
+    ],
+    "expected_paths": [["a", "b"]],
+    "forbidden_entities": ["c"],
+    "expected_truncated": false
+  },
+  {
+    "id": "path-bound",
+    "roles": ["Employee", "Engineer"],
+    "start": "a",
+    "max_depth": 1,
+    "max_paths": 1,
+    "edges": [
+      {"id": "01-ab", "source": "a", "target": "b", "classification": "public", "department": "Engineering"},
+      {"id": "02-ac", "source": "a", "target": "c", "classification": "public", "department": "Engineering"}
+    ],
+    "expected_paths": [["a", "b"]],
+    "forbidden_entities": [],
+    "expected_truncated": true
+  },
+  {
+    "id": "hidden-start",
+    "roles": ["Employee", "Engineer"],
+    "start": "hr_secret",
+    "max_depth": 2,
+    "max_paths": 20,
+    "edges": [
+      {"id": "secret-edge", "source": "hr_secret", "target": "hr_target", "classification": "restricted", "department": "HR"}
+    ],
+    "expected_error": "Entity not found",
+    "expected_paths": [],
+    "forbidden_entities": ["hr_secret", "hr_target"],
+    "expected_truncated": false
+  },
+  {
+    "id": "missing-start",
+    "roles": ["Employee", "Engineer"],
+    "start": "missing",
+    "max_depth": 2,
+    "max_paths": 20,
+    "edges": [],
+    "expected_error": "Entity not found",
+    "expected_paths": [],
+    "forbidden_entities": [],
+    "expected_truncated": false
+  }
+]

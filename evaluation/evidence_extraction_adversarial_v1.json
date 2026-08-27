@@ -1,0 +1,194 @@
+[
+  {
+    "id": "reverse-connects-to",
+    "origin": "machine-authored adversarial variant",
+    "text": "Stripe API connects to Billing Service.",
+    "entities": [["system", "stripe_api"], ["system", "billing_service"]],
+    "relationships": [["stripe_api", "connected_to", "billing_service"]],
+    "claims": [["connected_to", true]]
+  },
+  {
+    "id": "passive-deployment",
+    "origin": "machine-authored adversarial variant",
+    "text": "Billing Service is deployed on AWS EKS.",
+    "entities": [["system", "billing_service"], ["system", "aws_eks"]],
+    "relationships": [["billing_service", "deployed_on", "aws_eks"]],
+    "claims": [["deployed_on", true]]
+  },
+  {
+    "id": "explicit-hosting",
+    "origin": "machine-authored adversarial variant",
+    "text": "AWS EKS hosts Billing Service.",
+    "entities": [["system", "aws_eks"], ["system", "billing_service"]],
+    "relationships": [["aws_eks", "hosts", "billing_service"]],
+    "claims": [["hosts", true]]
+  },
+  {
+    "id": "lexical-routing",
+    "origin": "machine-authored adversarial variant",
+    "text": "Kong Gateway routes requests to User Service.",
+    "entities": [["system", "kong_gateway"], ["system", "user_service"]],
+    "relationships": [["kong_gateway", "routes_to", "user_service"]],
+    "claims": [["routes_to", true]]
+  },
+  {
+    "id": "cooccurrence-without-edge",
+    "origin": "machine-authored adversarial variant",
+    "text": "Datadog and PagerDuty are configured for monitoring.",
+    "entities": [["system", "datadog"], ["system", "pagerduty"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "negated-dependency",
+    "origin": "machine-authored adversarial variant",
+    "text": "Billing Service does not depend on Legacy Gateway.",
+    "entities": [["system", "billing_service"], ["system", "legacy_gateway"]],
+    "relationships": [["billing_service", "depends_on", "legacy_gateway"]],
+    "claims": [["depends_on", false]]
+  },
+  {
+    "id": "postgres-alias",
+    "origin": "machine-authored adversarial variant",
+    "text": "Postgres 16 is deployed on AWS RDS.",
+    "entities": [["system", "postgresql"], ["system", "aws_rds"]],
+    "relationships": [["postgresql", "deployed_on", "aws_rds"]],
+    "claims": [["deployed_on", true]]
+  },
+  {
+    "id": "amazon-s3-alias",
+    "origin": "machine-authored adversarial variant",
+    "text": "Amazon S3 stores document assets.",
+    "entities": [["system", "s3"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "parenthetical-gateway-routing",
+    "origin": "machine-authored adversarial variant",
+    "text": "API Gateway (Kong) routes traffic to User Service.",
+    "entities": [["system", "api_gateway"], ["system", "kong"], ["system", "user_service"]],
+    "relationships": [["kong", "routes_to", "user_service"]],
+    "claims": [["routes_to", true]]
+  },
+  {
+    "id": "elasticsearch-powers-search",
+    "origin": "machine-authored adversarial variant",
+    "text": "Elasticsearch powers Document Search.",
+    "entities": [["system", "elasticsearch"], ["system", "document_search"]],
+    "relationships": [["elasticsearch", "powers", "document_search"]],
+    "claims": [["powers", true]]
+  },
+  {
+    "id": "redis-elasticache-deployment",
+    "origin": "machine-authored adversarial variant",
+    "text": "Redis 7 is deployed on AWS ElastiCache.",
+    "entities": [["system", "redis"], ["system", "elasticache"]],
+    "relationships": [["redis", "deployed_on", "elasticache"]],
+    "claims": [["deployed_on", true]]
+  },
+  {
+    "id": "deployment-arrow-chain",
+    "origin": "machine-authored adversarial variant",
+    "text": "Deployment uses GitHub Actions → Argo CD → EKS.",
+    "entities": [["system", "github_actions"], ["system", "argo_cd"], ["system", "eks"]],
+    "relationships": [["github_actions", "deploys_to", "argo_cd"], ["argo_cd", "deploys_to", "eks"]],
+    "claims": [["deploys_to", true]]
+  },
+  {
+    "id": "table-slo-row",
+    "origin": "machine-authored adversarial variant",
+    "text": "| Billing API | 99.95% | < 500 ms |",
+    "entities": [["system", "billing_api"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "negative-security-claim",
+    "origin": "machine-authored adversarial variant",
+    "text": "Secrets are not stored in git.",
+    "entities": [["system", "git"]],
+    "relationships": [],
+    "claims": [["states", false]]
+  },
+  {
+    "id": "generic-applications-pgbouncer",
+    "origin": "machine-authored adversarial variant",
+    "text": "Applications use PgBouncer.",
+    "entities": [["system", "pgbouncer"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "notification-sendgrid-via",
+    "origin": "machine-authored adversarial variant",
+    "text": "Notification Service sends messages through SendGrid.",
+    "entities": [["system", "notification_service"], ["system", "sendgrid"]],
+    "relationships": [["notification_service", "uses", "sendgrid"]],
+    "claims": [["uses", true]]
+  },
+  {
+    "id": "document-s3-storage",
+    "origin": "machine-authored adversarial variant",
+    "text": "Document Service writes files to Amazon S3.",
+    "entities": [["system", "document_service"], ["system", "s3"]],
+    "relationships": [["document_service", "stores_in", "s3"]],
+    "claims": [["stores_in", true]]
+  },
+  {
+    "id": "incident-multiple-targets",
+    "origin": "machine-authored adversarial variant",
+    "text": "Incident INC-5023 affected Billing API and Customer Checkout.",
+    "entities": [["incident", "inc_5023"], ["system", "billing_api"], ["system", "customer_checkout"]],
+    "relationships": [["inc_5023", "affected", "billing_api"], ["inc_5023", "affected", "customer_checkout"]],
+    "claims": [["affected", true]]
+  },
+  {
+    "id": "secrets-manager-single-entity",
+    "origin": "machine-authored adversarial variant",
+    "text": "AWS Secrets Manager stores API keys.",
+    "entities": [["system", "aws_secrets_manager"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "pronoun-no-invented-edge",
+    "origin": "machine-authored adversarial variant",
+    "text": "Datadog integrates with PagerDuty. It sends alerts to engineers.",
+    "entities": [["system", "datadog"], ["system", "pagerduty"]],
+    "relationships": [["datadog", "integrates_with", "pagerduty"]],
+    "claims": [["integrates_with", true]]
+  },
+  {
+    "id": "implicit-subject-continuation",
+    "origin": "machine-authored adversarial variant",
+    "text": "Billing Service integrates with Stripe. Integrates with SendGrid.",
+    "entities": [["system", "billing_service"], ["system", "stripe"], ["system", "sendgrid"]],
+    "relationships": [["billing_service", "integrates_with", "stripe"], ["billing_service", "integrates_with", "sendgrid"]],
+    "claims": [["integrates_with", true]]
+  },
+  {
+    "id": "generic-description-negative",
+    "origin": "machine-authored adversarial variant",
+    "text": "The architecture uses loosely coupled services.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "connection-loss-without-positive-edge",
+    "origin": "machine-authored adversarial variant",
+    "text": "Certificate expiration caused Billing Service to lose its connection to Stripe.",
+    "entities": [["system", "billing_service"], ["system", "stripe"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "lowercase-database-aliases",
+    "origin": "machine-authored adversarial variant",
+    "text": "postgres is deployed on rds.",
+    "entities": [["system", "postgresql"], ["system", "aws_rds"]],
+    "relationships": [["postgresql", "deployed_on", "aws_rds"]],
+    "claims": [["deployed_on", true]]
+  }
+]

@@ -1,0 +1,16 @@
+# Used by `gcloud run deploy --source`
+# Keep indexdir/ and documents/ in the upload when present (do not ignore them)
+.gcloudignore
+.git
+.gitignore
+venv/
+.venv/
+frontend/node_modules/
+frontend/dist/
+.env
+.env.local
+__pycache__/
+.pytest_cache/
+tests/
+terminals/
+# Keep indexdir/ in upload (required for BM25)

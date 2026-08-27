@@ -1,0 +1,129 @@
+{
+  "version": "1.0",
+  "cases": [
+    {
+      "id": "pto-value-change",
+      "classification": "public",
+      "department": "HR",
+      "roles": ["Employee"],
+      "subject": "pto_policy",
+      "from": {"predicate": "allows", "object": "15 days", "polarity": true, "text": "PTO allowance is 15 days."},
+      "to": {"predicate": "allows", "object": "20 days", "polarity": true, "text": "PTO allowance is 20 days."},
+      "expected_conflict": "value_change"
+    },
+    {
+      "id": "response-target-numeric-change",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee", "Engineer"],
+      "subject": "sev_1_response",
+      "from": {"predicate": "target", "object": null, "polarity": true, "text": "Response target is 30 minutes."},
+      "to": {"predicate": "target", "object": null, "polarity": true, "text": "Response target is 15 minutes."},
+      "expected_conflict": "value_change"
+    },
+    {
+      "id": "owner-change",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": "billing_service",
+      "from": {"predicate": "owner", "object": "Platform Team", "polarity": true, "text": "Platform Team owns Billing Service."},
+      "to": {"predicate": "owner", "object": "SRE Team", "polarity": true, "text": "SRE Team owns Billing Service."},
+      "expected_conflict": "value_change"
+    },
+    {
+      "id": "polarity-change",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": "production_deploy",
+      "from": {"predicate": "allowed", "object": "Friday", "polarity": true, "text": "Production deploys are allowed Friday."},
+      "to": {"predicate": "allowed", "object": "Friday", "polarity": false, "text": "Production deploys are not allowed Friday."},
+      "expected_conflict": "polarity_change"
+    },
+    {
+      "id": "unchanged-fact",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": "billing_slo",
+      "from": {"predicate": "availability", "object": "99.95%", "polarity": true, "text": "Billing availability is 99.95%."},
+      "to": {"predicate": "availability", "object": "99.95%", "polarity": true, "text": "Billing availability is 99.95%."},
+      "expected_conflict": null
+    },
+    {
+      "id": "formatting-equivalent",
+      "classification": "public",
+      "department": "HR",
+      "roles": ["Employee"],
+      "subject": "pto_policy",
+      "from": {"predicate": "allows", "object": "20 DAYS", "polarity": true, "text": "PTO is 20 DAYS."},
+      "to": {"predicate": "allows", "object": "20 days", "polarity": true, "text": "PTO is 20 days."},
+      "expected_conflict": null
+    },
+    {
+      "id": "different-predicate",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": "billing_service",
+      "from": {"predicate": "latency", "object": "200 ms", "polarity": true, "text": "Billing latency is 200 ms."},
+      "to": {"predicate": "owner", "object": "Platform Team", "polarity": true, "text": "Platform Team owns Billing Service."},
+      "expected_conflict": null
+    },
+    {
+      "id": "different-subject",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": ["billing_service", "document_service"],
+      "from": {"predicate": "owner", "object": "Platform Team", "polarity": true, "text": "Platform Team owns Billing Service."},
+      "to": {"predicate": "owner", "object": "Search Team", "polarity": true, "text": "Search Team owns Document Service."},
+      "expected_conflict": null
+    },
+    {
+      "id": "missing-object-evidence",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": "deployment_policy",
+      "from": {"predicate": "states", "object": null, "polarity": true, "text": "Deployment policy was revised."},
+      "to": {"predicate": "states", "object": null, "polarity": true, "text": "Deployment policy was updated."},
+      "expected_conflict": null
+    },
+    {
+      "id": "restricted-visible-to-hr",
+      "classification": "restricted",
+      "department": "HR",
+      "roles": ["Employee", "HR"],
+      "subject": "compensation_policy",
+      "from": {"predicate": "band", "object": "Level 4", "polarity": true, "text": "Band is Level 4."},
+      "to": {"predicate": "band", "object": "Level 5", "polarity": true, "text": "Band is Level 5."},
+      "expected_conflict": "value_change",
+      "expected_visible": true
+    },
+    {
+      "id": "restricted-hidden-from-engineer",
+      "classification": "restricted",
+      "department": "HR",
+      "roles": ["Employee", "Engineer"],
+      "subject": "compensation_policy_hidden",
+      "from": {"predicate": "band", "object": "Level 4", "polarity": true, "text": "Band is Level 4."},
+      "to": {"predicate": "band", "object": "Level 5", "polarity": true, "text": "Band is Level 5."},
+      "expected_conflict": "value_change",
+      "expected_visible": false
+    },
+    {
+      "id": "effective-boundary",
+      "classification": "public",
+      "department": "HR",
+      "roles": ["Employee"],
+      "subject": "leave_policy",
+      "from": {"predicate": "allows", "object": "10 days", "polarity": true, "text": "Leave is 10 days."},
+      "to": {"predicate": "allows", "object": "12 days", "polarity": true, "text": "Leave is 12 days."},
+      "expected_conflict": "value_change",
+      "effective_at": "2026-01-01T00:00:00+00:00",
+      "expected_effective_version": 2
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "version": "2.0",
+  "cases": [
+    {
+      "id": "remote-days-value-change",
+      "classification": "public",
+      "department": "HR",
+      "roles": ["Employee"],
+      "subject": "remote_work_days",
+      "from": {"predicate": "allows", "object": "2 days per week", "polarity": true, "text": "Remote work allowed 2 days per week."},
+      "to": {"predicate": "allows", "object": "3 days per week", "polarity": true, "text": "Remote work allowed 3 days per week."},
+      "expected_conflict": "value_change"
+    },
+    {
+      "id": "remote-stipend-introduced",
+      "classification": "public",
+      "department": "HR",
+      "roles": ["Employee"],
+      "subject": "home_office_stipend",
+      "from": {"predicate": "provides", "object": "no stipend", "polarity": false, "text": "No home office stipend in v1."},
+      "to": {"predicate": "provides", "object": "$500 annual stipend", "polarity": true, "text": "Home office stipend is $500 annually."},
+      "expected_conflict": "polarity_change"
+    },
+    {
+      "id": "friday-deploy-polarity",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee", "Engineer"],
+      "subject": "friday_production_deploy",
+      "from": {"predicate": "allowed", "object": "Friday", "polarity": true, "text": "Friday production deploys are allowed with VP approval."},
+      "to": {"predicate": "allowed", "object": "Friday", "polarity": false, "text": "Friday production deploys are not allowed without CTO approval."},
+      "expected_conflict": "polarity_change"
+    },
+    {
+      "id": "rollback-target-change",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": "deploy_rollback",
+      "from": {"predicate": "target", "object": "15 minutes", "polarity": true, "text": "Rollback within 15 minutes."},
+      "to": {"predicate": "target", "object": "10 minutes", "polarity": true, "text": "Rollback within 10 minutes."},
+      "expected_conflict": "value_change"
+    },
+    {
+      "id": "enterprise-discount-unchanged",
+      "classification": "public",
+      "department": "Sales",
+      "roles": ["Employee"],
+      "subject": "enterprise_discount",
+      "from": {"predicate": "discount", "object": "25%", "polarity": true, "text": "Enterprise discount is 25%."},
+      "to": {"predicate": "discount", "object": "25%", "polarity": true, "text": "Enterprise discount remains 25%."},
+      "expected_conflict": null
+    },
+    {
+      "id": "billing-slo-unchanged-v2",
+      "classification": "public",
+      "department": "Engineering",
+      "roles": ["Employee"],
+      "subject": "billing_slo",
+      "from": {"predicate": "availability", "object": "99.95%", "polarity": true, "text": "Billing availability is 99.95%."},
+      "to": {"predicate": "availability", "object": "99.95%", "polarity": true, "text": "Billing availability is 99.95%."},
+      "expected_conflict": null
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+[
+  {
+    "id": "incident-affects-service",
+    "text": "Incident INC-5023 affected Billing Service.",
+    "entities": [["incident", "inc_5023"], ["system", "billing_service"]],
+    "relationships": [["inc_5023", "affected", "billing_service"]],
+    "claims": [["affected", true]]
+  },
+  {
+    "id": "service-dependency",
+    "text": "Billing Service depends on Stripe Gateway.",
+    "entities": [["system", "billing_service"], ["system", "stripe_gateway"]],
+    "relationships": [["billing_service", "depends_on", "stripe_gateway"]],
+    "claims": [["depends_on", true]]
+  },
+  {
+    "id": "runbook-mitigation",
+    "text": "On-Call Runbook mitigates INC-5023.",
+    "entities": [["document", "on_call_runbook"], ["incident", "inc_5023"]],
+    "relationships": [["on_call_runbook", "mitigates", "inc_5023"]],
+    "claims": [["mitigates", true]]
+  },
+  {
+    "id": "cooccurrence-is-not-relation",
+    "text": "Billing Service and Stripe Gateway are listed for reference.",
+    "entities": [["system", "billing_service"], ["system", "stripe_gateway"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "api-uses-database",
+    "text": "Payments API uses PostgreSQL Database.",
+    "entities": [["system", "payments_api"], ["system", "postgresql_database"]],
+    "relationships": [["payments_api", "uses", "postgresql_database"]],
+    "claims": [["uses", true]]
+  },
+  {
+    "id": "policy-references-process",
+    "text": "Security Policy references Incident Response Process.",
+    "entities": [["document", "security_policy"], ["document", "incident_response_process"]],
+    "relationships": [["security_policy", "references", "incident_response_process"]],
+    "claims": [["references", true]]
+  },
+  {
+    "id": "negated-dependency",
+    "text": "Billing Service does not depend on Legacy Gateway.",
+    "entities": [["system", "billing_service"], ["system", "legacy_gateway"]],
+    "relationships": [["billing_service", "depends_on", "legacy_gateway"]],
+    "claims": [["depends_on", false]]
+  },
+  {
+    "id": "lowercase-services",
+    "text": "billing service depends on stripe gateway.",
+    "entities": [["system", "billing_service"], ["system", "stripe_gateway"]],
+    "relationships": [["billing_service", "depends_on", "stripe_gateway"]],
+    "claims": [["depends_on", true]]
+  },
+  {
+    "id": "guide-references-api",
+    "text": "SLO Guide references Monitoring API.",
+    "entities": [["document", "slo_guide"], ["system", "monitoring_api"]],
+    "relationships": [["slo_guide", "references", "monitoring_api"]],
+    "claims": [["references", true]]
+  },
+  {
+    "id": "generic-no-evidence",
+    "text": "The on-call engineer reviewed the incident.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "generic-components",
+    "text": "Cluster uses API.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "case-insensitive-incident",
+    "text": "Incident inc-9001 caused Payment Service.",
+    "entities": [["incident", "inc_9001"], ["system", "payment_service"]],
+    "relationships": [["inc_9001", "caused", "payment_service"]],
+    "claims": [["caused", true]]
+  }
+]

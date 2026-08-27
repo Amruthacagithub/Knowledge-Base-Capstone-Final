@@ -1,0 +1,194 @@
+[
+  {
+    "id": "hold-mon-datadog",
+    "source_file": "documents/engineering/monitoring_guide.md",
+    "text": "TechNova uses **Datadog** for metrics, logs, traces, and synthetics. **PagerDuty** routes alerts to on-call.",
+    "entities": [["system", "datadog"], ["system", "pagerduty"]],
+    "relationships": [],
+    "claims": [["states", true], ["states", true]]
+  },
+  {
+    "id": "hold-mon-billing-slo",
+    "source_file": "documents/engineering/monitoring_guide.md",
+    "text": "| Billing API | 99.95% | < 500 ms |",
+    "entities": [["system", "billing_api"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "hold-runbook-inc",
+    "source_file": "documents/engineering/on_call_runbook.md",
+    "text": "See incident **INC-5023** for billing connector timeout pattern.",
+    "entities": [["incident", "inc_5023"]],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-runbook-ack",
+    "source_file": "documents/engineering/on_call_runbook.md",
+    "text": "Acknowledge PagerDuty alert within **5 minutes**.",
+    "entities": [["system", "pagerduty"]],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-runbook-kong",
+    "source_file": "documents/engineering/on_call_runbook.md",
+    "text": "Verify Kong pod health: `kubectl get pods -n gateway`.",
+    "entities": [["system", "kong"], ["system", "n_gateway"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "hold-runbook-es",
+    "source_file": "documents/engineering/on_call_runbook.md",
+    "text": "Pause heavy reindex jobs in Document Service.",
+    "entities": [["system", "document_service"]],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-sec-secrets",
+    "source_file": "documents/engineering/security_policy.md",
+    "text": "Secrets stored in **AWS Secrets Manager**; never in git.",
+    "entities": [["system", "aws_secrets_manager"], ["system", "git"]],
+    "relationships": [],
+    "claims": [["states", false]]
+  },
+  {
+    "id": "hold-sec-mfa",
+    "source_file": "documents/engineering/security_policy.md",
+    "text": "**MFA required** for AWS, GitHub, Google Workspace, and VPN.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-sec-report",
+    "source_file": "documents/engineering/security_policy.md",
+    "text": "Report suspected breaches to security@technova.com and `#security-incidents` immediately.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-inc-sev1",
+    "source_file": "documents/engineering/incident_response_process.md",
+    "text": "**SEV-1** | Complete outage or data loss risk | 15 min acknowledge, exec bridge | Payment API down |",
+    "entities": [["system", "payment_api"]],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-inc-detect",
+    "source_file": "documents/engineering/incident_response_process.md",
+    "text": "Alerts from Datadog, PagerDuty, or customer reports create incidents.",
+    "entities": [["system", "datadog"], ["system", "pagerduty"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "hold-inc-pir",
+    "source_file": "documents/engineering/incident_response_process.md",
+    "text": "Required for SEV-1 and SEV-2 within **5 business days**.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-db-ops",
+    "source_file": "documents/engineering/database_operations.md",
+    "text": "- Point-in-time recovery (PITR) enabled to 5-minute granularity.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-deploy",
+    "source_file": "documents/engineering/deployment_runbook.md",
+    "text": "- [ ] On-call notified if deploy outside business hours",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-coding",
+    "source_file": "documents/engineering/coding_standards.md",
+    "text": "- Write **docstrings** for all public functions and classes.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-sales-tier",
+    "source_file": "documents/sales/pricing_tiers.md",
+    "text": "Enterprise — Best for Large Organizations",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-sales-sla",
+    "source_file": "documents/sales/pricing_tiers.md",
+    "text": "| **SLA** | 99.5% | 99.9% | 99.99% |",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-hr-pto",
+    "source_file": "documents/hr/leave_policy.md",
+    "text": "Full-time employees accrue **20 days PTO per calendar year** at **1.67 days per month**.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-hr-sick",
+    "source_file": "documents/hr/leave_policy.md",
+    "text": "Employees receive **10 sick days per year**, separate from PTO.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-hr-carry",
+    "source_file": "documents/hr/leave_policy.md",
+    "text": "Maximum **5 unused PTO days** may carry to the next calendar year.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-hr-bereavement",
+    "source_file": "documents/hr/leave_policy.md",
+    "text": "**5 paid days** for immediate family (spouse, parent, child, sibling).",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-hr-jury",
+    "source_file": "documents/hr/leave_policy.md",
+    "text": "Jury duty is paid for up to **10 days** per year with summons documentation.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-sales-enterprise",
+    "source_file": "documents/sales/pricing_tiers.md",
+    "text": "Fully customized solution with unlimited everything.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "hold-sales-discount",
+    "source_file": "documents/sales/pricing_tiers.md",
+    "text": "- **Annual billing:** 20% discount on all tiers.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  }
+]

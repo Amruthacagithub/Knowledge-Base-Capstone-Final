@@ -1,0 +1,220 @@
+{
+  "version": "2.0",
+  "sources": [
+    {"path": "documents/engineering/architecture_overview.md", "sha256": "18f0cd196817634a9e523e28b1c62abda617f0e2249a7259571dfb5f41fdc7e4"},
+    {"path": "documents/engineering/database_operations.md", "sha256": "f546f2942b112a96257b1652438b0705e663ecd8b62500e7f4b2b554b6236e50"},
+    {"path": "documents/engineering/deployment_runbook.md", "sha256": "b00dd137ea4e173f008dd8fc85dd27ae138467d6f47beee49aaf4b0acda8b64e"},
+    {"path": "documents/engineering/incident_report_5023.md", "sha256": "0fffa0f5d94c9f904910f7b13946eb65cd93c543fad921b01e23f9e3be898457"},
+    {"path": "documents/engineering/integration_map.md", "sha256": "67b4b33633ce35f122acd14b2f233c88a88bb1a22f817714291fbfe77d4819b9"},
+    {"path": "documents/engineering/data_flow_payments.md", "sha256": "efe35ff628fb3b2459abd8f3e0989c98c1d15ebd057f2ed01e0e5a8c4a42d906"},
+    {"path": "documents/engineering/customer_checkout_flow.md", "sha256": "76f3dd415a6b2e1c29c95a092fcf138f8bf293e93a9ca490ce02f8db305aa987"},
+    {"path": "documents/engineering/vendor_integrations.md", "sha256": "7ce6d9bd05cbe5be1af64b295e9f1c405c62a324ca0ca7890bc17eb8a4d096d5"},
+    {"path": "documents/engineering/auth_service_overview.md", "sha256": "9fe273a58c47c565b1641966cfbfd62aafa799b54360c09b6d5757c819bae2c6"},
+    {"path": "documents/engineering/notification_pipeline.md", "sha256": "67d00355e0e97e1ff275f4127f23cc62abf62397822c7f67b5889261f79354c4"}
+  ],
+  "cases": [
+    {
+      "id": "deployment-two-hop",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "github_actions"],
+      "query": "How does production deployment reach EKS?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [["github_actions", "argo_cd"], ["github_actions", "argo_cd", "eks"]],
+      "expected_top_path": ["github_actions", "argo_cd", "eks"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "payment-gateway-two-hop",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "api_gateway"],
+      "query": "How does API Gateway reach Stripe for payments?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [
+        ["api_gateway", "auth_service"],
+        ["api_gateway", "billing_service"],
+        ["api_gateway", "billing_service", "payment_gateway"],
+        ["api_gateway", "billing_service", "postgresql_database"],
+        ["api_gateway", "billing_service", "stripe"],
+        ["api_gateway", "billing_service", "stripe_gateway"],
+        ["api_gateway", "user_service"]
+      ],
+      "expected_top_path": ["api_gateway", "billing_service", "stripe_gateway"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "auth-identity-two-hop",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "auth_service"],
+      "query": "Where does Auth Service persist user identity?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [
+        ["auth_service", "redis"],
+        ["auth_service", "redis", "elasticache"],
+        ["auth_service", "user_service"],
+        ["auth_service", "user_service", "postgresql_database"]
+      ],
+      "expected_top_path": ["auth_service", "user_service"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "notification-sendgrid",
+      "roles": ["Employee"],
+      "start": ["system", "notification_service"],
+      "query": "What email provider does Notification Service use?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["notification_service", "sendgrid"],
+        ["notification_service", "sendgrid_api"],
+        ["notification_service", "slack"],
+        ["notification_service", "slack_api"]
+      ],
+      "expected_top_path": ["notification_service", "slack"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "billing-stripe-direct",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "billing_service"],
+      "query": "How does Billing Service connect to Stripe?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["billing_service", "payment_gateway"],
+        ["billing_service", "postgresql_database"],
+        ["billing_service", "stripe"],
+        ["billing_service", "stripe_gateway"]
+      ],
+      "expected_top_path": ["billing_service", "stripe"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "gateway-routing",
+      "roles": ["Employee"],
+      "start": ["system", "kong_gateway"],
+      "query": "Where does Kong Gateway route clients?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [["kong_gateway", "user_service"]],
+      "expected_top_path": ["kong_gateway", "user_service"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "document-service-fanout",
+      "roles": ["Employee"],
+      "start": ["system", "document_service"],
+      "query": "Which search system does Document Service integrate with?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["document_service", "elasticsearch"],
+        ["document_service", "elasticsearch_cluster"],
+        ["document_service", "s3"],
+        ["document_service", "search_engine"]
+      ],
+      "expected_top_path": ["document_service", "search_engine"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "api-gateway-billing-one-hop",
+      "roles": ["Employee"],
+      "start": ["system", "api_gateway"],
+      "query": "What is the first billing handoff from API Gateway?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["api_gateway", "auth_service"],
+        ["api_gateway", "billing_service"],
+        ["api_gateway", "user_service"]
+      ],
+      "expected_top_path": ["api_gateway", "billing_service"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "auth-redis-session",
+      "roles": ["Employee", "Engineer"],
+      "start": ["system", "auth_service"],
+      "query": "What cache does Auth Service use for sessions?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [["auth_service", "redis"], ["auth_service", "user_service"]],
+      "expected_top_path": ["auth_service", "user_service"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "notification-slack",
+      "roles": ["Employee"],
+      "start": ["system", "notification_service"],
+      "query": "What chat system does Notification Service use?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["notification_service", "sendgrid"],
+        ["notification_service", "sendgrid_api"],
+        ["notification_service", "slack"],
+        ["notification_service", "slack_api"]
+      ],
+      "expected_top_path": ["notification_service", "slack"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "postgres-deployment",
+      "roles": ["Employee"],
+      "start": ["system", "postgresql"],
+      "query": "Where is PostgreSQL deployed?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [["postgresql", "aws_rds"]],
+      "expected_top_path": ["postgresql", "aws_rds"],
+      "forbidden_entities": []
+    },
+    {
+      "id": "incident-no-outgoing-path",
+      "roles": ["Employee", "Engineer"],
+      "start": ["incident", "inc_5023"],
+      "query": "What systems are directly linked from INC-5023?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [],
+      "forbidden_entities": []
+    },
+    {
+      "id": "checkout-no-outgoing",
+      "roles": ["Employee"],
+      "start": ["system", "customer_checkout"],
+      "query": "What downstream systems depend on Customer Checkout?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [],
+      "forbidden_entities": []
+    },
+    {
+      "id": "launchdarkly-no-explicit-path",
+      "roles": ["Employee"],
+      "start": ["system", "launchdarkly"],
+      "query": "What incident system does LaunchDarkly mitigate?",
+      "max_depth": 2,
+      "max_paths": 20,
+      "expected_paths": [],
+      "forbidden_entities": []
+    },
+    {
+      "id": "gateway-auth-route",
+      "roles": ["Employee"],
+      "start": ["system", "api_gateway"],
+      "query": "Where does API Gateway route authentication?",
+      "max_depth": 1,
+      "max_paths": 20,
+      "expected_paths": [
+        ["api_gateway", "auth_service"],
+        ["api_gateway", "billing_service"],
+        ["api_gateway", "user_service"]
+      ],
+      "expected_top_path": ["api_gateway", "billing_service"],
+      "forbidden_entities": []
+    }
+  ]
+}

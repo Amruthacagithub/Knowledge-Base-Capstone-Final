@@ -1,0 +1,151 @@
+{
+  "version": "1.0",
+  "provenance": "Agent-reviewed holdout; frozen before local completion metrics.",
+  "labels": ["supported", "conflicting", "insufficient"],
+  "cases": [
+    {
+      "id": "hold-supported-pto",
+      "evidence": "Full-time employees accrue 20 days PTO per calendar year at 1.67 days per month.",
+      "claim": "Full-time staff receive 20 PTO days annually.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-supported-sick",
+      "evidence": "Employees receive 10 sick days per year, separate from PTO.",
+      "claim": "Sick leave provides 10 days per year.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-supported-carry",
+      "evidence": "Maximum 5 unused PTO days may carry to the next calendar year.",
+      "claim": "Up to five PTO days can roll over.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-supported-datadog",
+      "evidence": "TechNova uses Datadog for metrics, logs, traces, and synthetics.",
+      "claim": "Datadog is used for platform observability.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-supported-pagerduty",
+      "evidence": "PagerDuty routes alerts to on-call.",
+      "claim": "On-call alerts are routed through PagerDuty.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-supported-sev1",
+      "evidence": "SEV-1 incidents require a 15 min acknowledge target.",
+      "claim": "SEV-1 acknowledgement target is 15 minutes.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-supported-secrets",
+      "evidence": "Secrets stored in AWS Secrets Manager; never in git.",
+      "claim": "Production secrets are kept in AWS Secrets Manager.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-supported-discount",
+      "evidence": "Annual billing provides a 20% discount on all tiers.",
+      "claim": "Annual billing includes a 20 percent discount.",
+      "expected": "supported"
+    },
+    {
+      "id": "hold-conflict-pto-days",
+      "evidence": "Full-time employees accrue 20 days PTO per calendar year.",
+      "claim": "Full-time employees receive 25 PTO days per year.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-conflict-sick-days",
+      "evidence": "Employees receive 10 sick days per year, separate from PTO.",
+      "claim": "Sick leave provides 15 days annually.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-conflict-sla-starter",
+      "evidence": "Starter tier SLA is 99.5%.",
+      "claim": "Starter tier SLA is 99.9%.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-conflict-mfa",
+      "evidence": "MFA required for AWS, GitHub, Google Workspace, and VPN.",
+      "claim": "MFA is optional for AWS console access.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-conflict-rotation",
+      "evidence": "Rotations change weekly on Monday 09:00 UTC.",
+      "claim": "On-call rotations change monthly.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-conflict-pir",
+      "evidence": "PIR required for SEV-1 and SEV-2 within 5 business days.",
+      "claim": "Post-incident reviews are due within 2 business days.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-conflict-billing-slo",
+      "evidence": "Billing API availability SLO is 99.95%.",
+      "claim": "Billing API availability SLO is 99.5%.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-conflict-enterprise-users",
+      "evidence": "Enterprise tier supports unlimited users.",
+      "claim": "Enterprise tier caps users at 500.",
+      "expected": "conflicting"
+    },
+    {
+      "id": "hold-insufficient-pto-cash",
+      "evidence": "Full-time employees accrue 20 days PTO per calendar year.",
+      "claim": "Unused PTO can be cashed out at year end.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "hold-insufficient-remote",
+      "evidence": "Employees receive 10 sick days per year, separate from PTO.",
+      "claim": "Remote employees receive a home office stipend.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "hold-insufficient-stripe-fees",
+      "evidence": "Billing Service processes payments via Stripe integration.",
+      "claim": "Stripe charges a 2.9% processing fee on all transactions.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "hold-insufficient-kong-version",
+      "evidence": "Verify Kong pod health in the gateway namespace.",
+      "claim": "Kong Gateway runs version 3.4 in production.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "hold-insufficient-hr-portal",
+      "evidence": "Submit requests in the HR portal at least 14 days in advance.",
+      "claim": "The HR portal is hosted on Workday.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "hold-insufficient-sales-crm",
+      "evidence": "Pro tier includes priority email support within 24 hours.",
+      "claim": "Sales uses Salesforce CRM for pipeline tracking.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "hold-insufficient-inc-bridge",
+      "evidence": "SEV-1 requires executive bridge within 15 minutes.",
+      "claim": "Executive bridges are hosted on Zoom.",
+      "expected": "insufficient"
+    },
+    {
+      "id": "hold-insufficient-log-retention",
+      "evidence": "Structured JSON logs include trace_id and service fields.",
+      "claim": "Hot log retention is 90 days in Datadog.",
+      "expected": "insufficient"
+    }
+  ]
+}

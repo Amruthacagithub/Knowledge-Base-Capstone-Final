@@ -1,0 +1,146 @@
+{
+  "version": "1.0",
+  "provenance": "Agent-authored local verification benchmark; offline fixture mode by default.",
+  "cases": [
+    {
+      "id": "live-supported-pto",
+      "evidence": "Full-time employees accrue 20 days PTO per calendar year.",
+      "claim": "Employees receive 20 PTO days annually.",
+      "expected_status": "supported",
+      "must_render": true
+    },
+    {
+      "id": "live-supported-sick",
+      "evidence": "Employees receive 10 sick days per year, separate from PTO.",
+      "claim": "Sick leave provides 10 days per year.",
+      "expected_status": "supported",
+      "must_render": true
+    },
+    {
+      "id": "live-conflict-pto",
+      "evidence": "Full-time employees accrue 20 days PTO per calendar year.",
+      "claim": "Employees receive 30 PTO days annually.",
+      "expected_status": "conflicting",
+      "must_render": false
+    },
+    {
+      "id": "live-insufficient-stipend",
+      "evidence": "Full-time employees accrue 20 days PTO per calendar year.",
+      "claim": "Remote employees receive a home office stipend.",
+      "expected_status": "insufficient",
+      "must_render": false
+    },
+    {
+      "id": "live-supported-billing",
+      "evidence": "Billing Service depends on Stripe Gateway for payment authorization.",
+      "claim": "Billing Service uses Stripe Gateway for payments.",
+      "expected_status": "supported",
+      "must_render": true
+    },
+    {
+      "id": "live-conflict-billing",
+      "evidence": "Billing Service depends on Stripe Gateway for payment authorization.",
+      "claim": "Billing Service does not use Stripe Gateway.",
+      "expected_status": "conflicting",
+      "must_render": false
+    },
+    {
+      "id": "live-insufficient-version",
+      "evidence": "Verify Kong pod health in the gateway namespace.",
+      "claim": "Kong Gateway runs version 3.4 in production.",
+      "expected_status": "insufficient",
+      "must_render": false
+    },
+    {
+      "id": "live-supported-datadog",
+      "evidence": "TechNova uses Datadog for metrics, logs, traces, and synthetics.",
+      "claim": "Datadog is the observability platform.",
+      "expected_status": "supported",
+      "must_render": true
+    },
+    {
+      "id": "live-conflict-sla",
+      "evidence": "Starter tier SLA is 99.5%.",
+      "claim": "Starter tier SLA is 99.9%.",
+      "expected_status": "conflicting",
+      "must_render": false
+    },
+    {
+      "id": "live-insufficient-crm",
+      "evidence": "Pro tier includes priority email support within 24 hours.",
+      "claim": "Sales uses Salesforce CRM for pipeline tracking.",
+      "expected_status": "insufficient",
+      "must_render": false
+    },
+    {
+      "id": "live-supported-mfa",
+      "evidence": "MFA required for AWS, GitHub, Google Workspace, and VPN.",
+      "claim": "MFA is required for AWS access.",
+      "expected_status": "supported",
+      "must_render": true
+    },
+    {
+      "id": "live-conflict-remote-days",
+      "evidence": "Remote work allowed 3 days per week.",
+      "claim": "Remote work allowed 5 days per week.",
+      "expected_status": "conflicting",
+      "must_render": false
+    },
+    {
+      "id": "live-insufficient-bridge",
+      "evidence": "SEV-1 requires executive bridge within 15 minutes.",
+      "claim": "Executive bridges are hosted on Zoom.",
+      "expected_status": "insufficient",
+      "must_render": false
+    },
+    {
+      "id": "live-supported-discount",
+      "evidence": "Annual billing provides a 20% discount on all tiers.",
+      "claim": "Annual billing includes a 20 percent discount.",
+      "expected_status": "supported",
+      "must_render": true
+    },
+    {
+      "id": "live-conflict-rotation",
+      "evidence": "On-call rotations change weekly on Monday 09:00 UTC.",
+      "claim": "On-call rotations change monthly.",
+      "expected_status": "conflicting",
+      "must_render": false
+    },
+    {
+      "id": "live-insufficient-fees",
+      "evidence": "Billing Service processes payments via Stripe integration.",
+      "claim": "Stripe charges a 2.9% processing fee on all transactions.",
+      "expected_status": "insufficient",
+      "must_render": false
+    },
+    {
+      "id": "live-supported-secrets",
+      "evidence": "Secrets stored in AWS Secrets Manager; never in git.",
+      "claim": "Production secrets are kept in AWS Secrets Manager.",
+      "expected_status": "supported",
+      "must_render": true
+    },
+    {
+      "id": "live-conflict-pir",
+      "evidence": "PIR required for SEV-1 and SEV-2 within 5 business days.",
+      "claim": "Post-incident reviews are due within 2 business days.",
+      "expected_status": "conflicting",
+      "must_render": false
+    },
+    {
+      "id": "live-abstain-empty-evidence",
+      "evidence": "The on-call engineer reviewed the incident timeline.",
+      "claim": "The root cause was a database failover.",
+      "expected_status": "insufficient",
+      "must_render": false
+    },
+    {
+      "id": "live-supported-auth-chain",
+      "evidence": "Auth Service depends on User Service for account lookups.",
+      "claim": "Auth Service depends on User Service.",
+      "expected_status": "supported",
+      "must_render": true
+    }
+  ]
+}

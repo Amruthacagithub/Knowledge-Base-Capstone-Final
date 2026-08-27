@@ -1,0 +1,242 @@
+[
+  {
+    "id": "arch-platform-on-eks",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "5",
+    "difficulty": "medium",
+    "text": "The TechNova Platform follows a microservices architecture deployed on AWS EKS (Kubernetes).",
+    "entities": [["system", "technova_platform"], ["system", "aws_eks"], ["system", "kubernetes"]],
+    "relationships": [["technova_platform", "deployed_on", "aws_eks"]],
+    "claims": [["deployed_on", true]]
+  },
+  {
+    "id": "arch-api-gateway-kong",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "11",
+    "difficulty": "medium",
+    "text": "**API Gateway** (Kong) — Routes external traffic, handles rate limiting and authentication.",
+    "entities": [["system", "api_gateway"], ["system", "kong"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "arch-billing-stripe",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "13",
+    "difficulty": "medium",
+    "text": "3. **Billing Service** — Processes payments via Stripe integration. Handles subscriptions, invoices, and payment retries.",
+    "entities": [["system", "billing_service"], ["system", "stripe"]],
+    "relationships": [["billing_service", "integrates_with", "stripe"]],
+    "claims": [["integrates_with", true]]
+  },
+  {
+    "id": "arch-document-search-integration",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "14",
+    "difficulty": "hard",
+    "text": "4. **Document Service** — Stores and indexes enterprise documents. Integrates with our search engine.",
+    "entities": [["system", "document_service"], ["system", "search_engine"]],
+    "relationships": [["document_service", "integrates_with", "search_engine"]],
+    "claims": [["states", true], ["integrates_with", true]]
+  },
+  {
+    "id": "arch-postgresql-primary",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "19",
+    "difficulty": "medium",
+    "text": "- **PostgreSQL 16** — Primary database for user data, billing records, and document metadata.",
+    "entities": [["system", "postgresql"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "arch-kubernetes-orchestration",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "26",
+    "difficulty": "medium",
+    "text": "- **Kubernetes (EKS)** — Container orchestration for all services.",
+    "entities": [["system", "kubernetes"], ["system", "eks"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "arch-route-kong-user",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "76",
+    "difficulty": "hard",
+    "text": "Clients → Kong Gateway → User Service",
+    "entities": [["system", "kong_gateway"], ["system", "user_service"]],
+    "relationships": [["kong_gateway", "routes_to", "user_service"]],
+    "claims": [["routes_to", true]]
+  },
+  {
+    "id": "arch-billing-depends-stripe",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "77",
+    "difficulty": "hard",
+    "text": "                      → Billing Service → Stripe",
+    "entities": [["system", "billing_service"], ["system", "stripe"]],
+    "relationships": [["billing_service", "depends_on", "stripe"]],
+    "claims": [["depends_on", true]]
+  },
+  {
+    "id": "arch-document-dependencies",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "78",
+    "difficulty": "hard",
+    "text": "                      → Document Service → Elasticsearch, S3",
+    "entities": [["system", "document_service"], ["system", "elasticsearch"], ["system", "s3"]],
+    "relationships": [["document_service", "depends_on", "elasticsearch"], ["document_service", "depends_on", "s3"]],
+    "claims": [["depends_on", true]]
+  },
+  {
+    "id": "arch-notification-dependencies",
+    "source_file": "documents/engineering/architecture_overview.md",
+    "source_lines": "79",
+    "difficulty": "hard",
+    "text": "                      → Notification Service → SendGrid, Slack",
+    "entities": [["system", "notification_service"], ["system", "sendgrid"], ["system", "slack"]],
+    "relationships": [["notification_service", "depends_on", "sendgrid"], ["notification_service", "depends_on", "slack"]],
+    "claims": [["depends_on", true]]
+  },
+  {
+    "id": "incident-root-cause-connection",
+    "source_file": "documents/engineering/incident_report_5023.md",
+    "source_lines": "12",
+    "difficulty": "hard",
+    "text": "The root cause was an expired TLS certificate on the connection between our billing microservice and the third-party payment gateway (Stripe).",
+    "entities": [["system", "billing_service"], ["system", "payment_gateway"], ["system", "stripe"]],
+    "relationships": [["billing_service", "connected_to", "payment_gateway"]],
+    "claims": [["connected_to", true]]
+  },
+  {
+    "id": "incident-billing-stripe-failure",
+    "source_file": "documents/engineering/incident_report_5023.md",
+    "source_lines": "31",
+    "difficulty": "hard",
+    "text": "When the certificate expired, all outgoing connections from the billing service to Stripe failed with a TLS handshake error, which surfaced to users as error code **5023** (\"Billing connector timeout\").",
+    "entities": [["system", "billing_service"], ["system", "stripe"]],
+    "relationships": [["billing_service", "connected_to", "stripe"]],
+    "claims": [["connected_to", true]]
+  },
+  {
+    "id": "incident-no-data-loss",
+    "source_file": "documents/engineering/incident_report_5023.md",
+    "source_lines": "39",
+    "difficulty": "easy",
+    "text": "- No data loss occurred.",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  },
+  {
+    "id": "database-postgres-rds",
+    "source_file": "documents/engineering/database_operations.md",
+    "source_lines": "5",
+    "difficulty": "medium",
+    "text": "**Version:** PostgreSQL 16 on AWS RDS (Multi-AZ).",
+    "entities": [["system", "postgresql"], ["system", "aws_rds"]],
+    "relationships": [["postgresql", "deployed_on", "aws_rds"]],
+    "claims": [["deployed_on", true]]
+  },
+  {
+    "id": "database-apps-use-pgbouncer",
+    "source_file": "documents/engineering/database_operations.md",
+    "source_lines": "9",
+    "difficulty": "medium",
+    "text": "- Applications use PgBouncer in **transaction mode**.",
+    "entities": [["system", "pgbouncer"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "database-redis-elasticache",
+    "source_file": "documents/engineering/database_operations.md",
+    "source_lines": "24",
+    "difficulty": "medium",
+    "text": "**Version:** Redis 7 (ElastiCache cluster mode).",
+    "entities": [["system", "redis"], ["system", "elasticache"]],
+    "relationships": [["redis", "deployed_on", "elasticache"]],
+    "claims": [["deployed_on", true]]
+  },
+  {
+    "id": "monitoring-datadog-pagerduty",
+    "source_file": "documents/engineering/monitoring_guide.md",
+    "source_lines": "5",
+    "difficulty": "medium",
+    "text": "TechNova uses **Datadog** for metrics, logs, traces, and synthetics. **PagerDuty** routes alerts to on-call.",
+    "entities": [["system", "datadog"], ["system", "pagerduty"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "monitoring-api-gateway-slo",
+    "source_file": "documents/engineering/monitoring_guide.md",
+    "source_lines": "22",
+    "difficulty": "hard",
+    "text": "| API Gateway | 99.9% | < 200 ms |",
+    "entities": [["system", "api_gateway"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "deployment-production-chain",
+    "source_file": "documents/engineering/deployment_runbook.md",
+    "source_lines": "5",
+    "difficulty": "hard",
+    "text": "Production deployments use **GitHub Actions** → **Argo CD** → **EKS**.",
+    "entities": [["system", "github_actions"], ["system", "argo_cd"], ["system", "eks"]],
+    "relationships": [["github_actions", "deploys_to", "argo_cd"], ["argo_cd", "deploys_to", "eks"]],
+    "claims": [["deploys_to", true]]
+  },
+  {
+    "id": "security-secrets-manager",
+    "source_file": "documents/engineering/security_policy.md",
+    "source_lines": "16",
+    "difficulty": "medium",
+    "text": "- Secrets stored in **AWS Secrets Manager**; never in git.",
+    "entities": [["system", "aws_secrets_manager"], ["system", "git"]],
+    "relationships": [],
+    "claims": [["states", false]]
+  },
+  {
+    "id": "api-restful-service",
+    "source_file": "documents/engineering/api_documentation.md",
+    "source_lines": "5",
+    "difficulty": "medium",
+    "text": "The TechNova Platform API is a RESTful service that powers our core product.",
+    "entities": [["system", "technova_platform_api"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "incident-alert-sources",
+    "source_file": "documents/engineering/incident_response_process.md",
+    "source_lines": "27",
+    "difficulty": "medium",
+    "text": "Alerts from Datadog, PagerDuty, or customer reports create incidents. On-call engineer acknowledges within SLA.",
+    "entities": [["system", "datadog"], ["system", "pagerduty"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "oncall-upstream-services",
+    "source_file": "documents/engineering/on_call_runbook.md",
+    "source_lines": "26",
+    "difficulty": "hard",
+    "text": "- Check upstream User/Billing service health endpoints.",
+    "entities": [["system", "user_service"], ["system", "billing_service"]],
+    "relationships": [],
+    "claims": [["states", true]]
+  },
+  {
+    "id": "coding-example-negative",
+    "source_file": "documents/engineering/coding_standards.md",
+    "source_lines": "17-26",
+    "difficulty": "hard-negative",
+    "text": "# Variables and functions: snake_case\nuser_count = 10\ndef get_user_by_id(user_id: str) -> User:\n    ...\n\n# Classes: PascalCase\nclass PaymentProcessor:\n    ...",
+    "entities": [],
+    "relationships": [],
+    "claims": []
+  }
+]
