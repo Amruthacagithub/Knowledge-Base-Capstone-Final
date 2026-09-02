@@ -9,7 +9,6 @@ from pydantic import BaseModel, Field
 
 from backend.services.auth import authenticate
 from backend.services.retriever import hybrid_search
-from backend.services.reranker import rerank
 from backend.services.generator import generate_answer
 from backend.services.query_planner import plan_query
 from backend.services.planned_retrieval import (
@@ -35,6 +34,8 @@ router = APIRouter(prefix="/api", tags=["search"])
 
 def _rank_candidates(query: str, candidates: list[dict], top_n: int) -> list[dict]:
     if RERANKER_ENABLED:
+        from backend.services.reranker import rerank
+
         return rerank(query=query, candidates=candidates, top_n=top_n)
     return candidates[:top_n]
 

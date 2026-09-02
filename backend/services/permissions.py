@@ -1,12 +1,11 @@
 """
 Permission resolver — builds Qdrant filters based on the user's roles.
 """
-from qdrant_client.models import Filter, FieldCondition, MatchValue, MatchAny
-
 from backend.services.auth import UserContext
+from backend.services.rbac import department_to_role
 
 
-def build_permission_filter(user_ctx: UserContext) -> Filter | None:
+def build_permission_filter(user_ctx: UserContext):
     """
     Build a Qdrant filter that enforces role-based access control.
 
@@ -15,6 +14,8 @@ def build_permission_filter(user_ctx: UserContext) -> Filter | None:
     - Other users only see chunks where at least one of their roles
       is in the chunk's access_roles list.
     """
+    from qdrant_client.models import Filter, FieldCondition, MatchAny
+
     if "Admin" in user_ctx.roles:
         return None  # Admin sees everything
 
@@ -49,7 +50,6 @@ def filter_bm25_results(results: list[dict], user_ctx: UserContext) -> list[dict
             filtered.append(r)
         elif classification == "restricted":
             # Only users with the department role can see restricted docs
-            from backend.services.embedder import department_to_role
             required_role = department_to_role(department)
             if required_role in user_ctx.roles:
                 filtered.append(r)

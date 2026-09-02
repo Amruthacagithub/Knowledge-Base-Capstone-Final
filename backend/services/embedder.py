@@ -19,6 +19,7 @@ from backend.config import (
     MODEL_DEVICE,
 )
 from backend.services.chunk_identity import build_chunk_id, build_qdrant_point_id
+from backend.services.rbac import department_to_role
 
 # ── Singletons (loaded once, reused) ──
 _model = None
@@ -237,16 +238,6 @@ def prune_points_for_missing_documents(active_doc_ids: set[str]) -> int:
             wait=True,
         )
     return len(stale_point_ids)
-
-
-def department_to_role(department: str) -> str:
-    """Map department name to role name."""
-    mapping = {
-        "HR": "HR",
-        "Engineering": "Engineer",
-        "Sales": "Sales",
-    }
-    return mapping.get(department, "Employee")
 
 
 def vector_search(
