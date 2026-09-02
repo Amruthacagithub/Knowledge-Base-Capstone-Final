@@ -34,8 +34,6 @@ services:
         value: password
       - key: DOCUMENT_STORAGE_BACKEND
         value: local
-      - key: RUN_INGEST_ON_STARTUP
-        value: "true"
       - key: VECTOR_SEARCH_ENABLED
         value: "false"
       - key: RERANKER_ENABLED
