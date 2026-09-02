@@ -1,0 +1,63 @@
+# Render — full stack: API + Postgres + Qdrant (no external Qdrant Cloud required).
+databases:
+  - name: knowledge-base-db
+    plan: basic-256mb
+    databaseName: trust_rag
+    user: trust_rag
+
+services:
+  - type: pserv
+    name: knowledge-base-qdrant
+    runtime: image
+    image:
+      url: docker.io/qdrant/qdrant:v1.12.5
+    plan: starter
+    disk:
+      name: qdrant-data
+      mountPath: /qdrant/storage
+      sizeGB: 1
+
+  - type: web
+    name: knowledge-base-api
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
+    healthCheckPath: /api/health
+    envVars:
+      - key: DATABASE_URL
+        fromDatabase:
+          name: knowledge-base-db
+          property: connectionString
+      - key: QDRANT_HOST
+        fromService:
+          name: knowledge-base-qdrant
+          type: pserv
+          property: host
+      - key: QDRANT_PORT
+        value: "6333"
+      - key: JWT_SECRET
+        sync: false
+      - key: BOOTSTRAP_USER_PASSWORD
+        sync: false
+      - key: GEMINI_API_KEY
+        sync: false
+      - key: CORS_ORIGINS
+        value: https://knowledge-base-trust-rag.vercel.app,http://127.0.0.1:5173,http://localhost:5173
+      - key: ALLOWED_HOSTS
+        value: "*"
+      - key: AUTH_MODE
+        value: password
+      - key: MODEL_DEVICE
+        value: cpu
+      - key: DOCUMENT_STORAGE_BACKEND
+        value: local
+      - key: RUN_INGEST_ON_STARTUP
+        value: "true"
+      - key: EVIDENCE_EXTRACTION_ENABLED
+        value: "false"
+      - key: EVIDENCE_GRAPH_ENABLED
+        value: "false"
+      - key: TEMPORAL_API_ENABLED
+        value: "false"
+      - key: CLAIM_VERIFICATION_ENABLED
+        value: "false"

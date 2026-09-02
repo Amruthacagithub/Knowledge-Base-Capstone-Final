@@ -21,7 +21,9 @@ COPY scripts ./scripts
 COPY pytest.ini .
 COPY alembic.ini .
 COPY migrations ./migrations
-RUN groupadd --system app \
+COPY scripts/start_cloudrun.sh ./scripts/start_cloudrun.sh
+RUN chmod +x ./scripts/start_cloudrun.sh \
+    && groupadd --system app \
     && useradd --system --gid app --create-home --home-dir /home/app app \
     && mkdir -p /app/indexdir \
     && chown -R app:app /app /home/app
@@ -32,4 +34,4 @@ EXPOSE 8080
 
 USER app
 
-CMD ["sh", "-c", "uvicorn backend.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
+CMD ["./scripts/start_cloudrun.sh"]
