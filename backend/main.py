@@ -12,7 +12,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.trustedhost import TrustedHostMiddleware
 
-from backend.config import ALLOWED_HOSTS, CORS_ORIGINS
+from backend.config import ALLOWED_HOSTS, CORS_ORIGINS, VECTOR_SEARCH_ENABLED
 from backend.routers.auth_router import router as auth_router
 from backend.routers.search_router import router as search_router
 from backend.routers.documents_router import router as documents_router
@@ -105,14 +105,19 @@ def _check_qdrant() -> bool:
 def health_check():
     """Health check with dependency status."""
     pg_ok = _check_postgres()
-    qd_ok = _check_qdrant()
+    if VECTOR_SEARCH_ENABLED:
+        qd_ok = _check_qdrant()
+        qdrant_status = "up" if qd_ok else "down"
+    else:
+        qd_ok = True
+        qdrant_status = "disabled"
     status = "ok" if pg_ok and qd_ok else "degraded"
     return {
         "status": status,
         "service": "knowledge-base",
         "components": {
             "postgres": "up" if pg_ok else "down",
-            "qdrant": "up" if qd_ok else "down",
+            "qdrant": qdrant_status,
         },
     }
 

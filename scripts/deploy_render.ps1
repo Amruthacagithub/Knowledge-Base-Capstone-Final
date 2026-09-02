@@ -54,43 +54,43 @@ if ($existing) {
     $apiUrl = "https://$($existing.service.serviceDetails.url)"
     Write-Host "Service already exists: $apiUrl"
 } else {
-    Write-Host "=== Creating Blueprint from GitHub repo ==="
-    Write-Host "NOTE: render.yaml + Dockerfile must be on branch $Branch of $Repo"
-    $spec = Get-Content -Raw -Path (Join-Path $Root "render.yaml")
-    $body = @{
-        name     = "knowledge-base-trust-rag"
-        ownerId  = $ownerId
-        repo     = $Repo
-        branch   = $Branch
-        autoSync = $true
-        envVars  = @(
-            @{ key = "JWT_SECRET"; value = $jwt }
-            @{ key = "BOOTSTRAP_USER_PASSWORD"; value = $bootstrap }
-            @{ key = "GEMINI_API_KEY"; value = $gemini }
-        )
-    } | ConvertTo-Json -Depth 6
-
-    try {
-        $bp = Invoke-RestMethod -Method POST -Uri "https://api.render.com/v1/blueprints" -Headers $headers -Body $body
-        Write-Host "Blueprint created: $($bp.id)"
-        Write-Host "Watch deploy: https://dashboard.render.com"
-        Start-Sleep -Seconds 30
-    } catch {
-        $err = $_.ErrorDetails.Message
-        Write-Host "Blueprint API response: $err"
-        Write-Host ""
-        Write-Host "=== Manual fallback (5 minutes) ==="
-        Write-Host "1. Push render.yaml + Dockerfile to GitHub main"
-        Write-Host "2. https://dashboard.render.com/blueprints -> New Blueprint Instance"
-        Write-Host "3. Connect repo: $Repo"
-        Write-Host "4. Set secrets: JWT_SECRET, BOOTSTRAP_USER_PASSWORD, GEMINI_API_KEY"
-        throw $_
+    Write-Host "=== Validating render.yaml ==="
+    $yamlPath = Join-Path $Root "render.yaml"
+    $validate = curl.exe -s -X POST "https://api.render.com/v1/blueprints/validate" `
+        -H "Authorization: Bearer $RenderApiKey" `
+        -F "ownerId=$ownerId" `
+        -F "file=@$yamlPath" | ConvertFrom-Json
+    if (-not $validate.valid) {
+        $payment = @($validate.errors | Where-Object { $_.error -eq "need_payment_info" })
+        if ($payment.Count -gt 0) {
+            Write-Host "Render requires a payment method for the plans in render.yaml (Postgres + starter services)."
+            Write-Host "Add one at: https://dashboard.render.com/billing"
+            Write-Host ""
+        }
+        Write-Host ($validate | ConvertTo-Json -Depth 6)
+        throw "render.yaml validation failed. Fix errors above, then create the Blueprint in the dashboard."
     }
+    Write-Host "render.yaml is valid."
 
-    $services = Invoke-RestMethod -Uri "https://api.render.com/v1/services?limit=50" -Headers $headers
-    $existing = $services | Where-Object { $_.service.name -eq "knowledge-base-api" } | Select-Object -First 1
+    Write-Host ""
+    Write-Host "=== Create Blueprint in Render Dashboard (required; no create API) ==="
+    Write-Host "1. https://dashboard.render.com/blueprints -> New Blueprint Instance"
+    Write-Host "2. Repo: $Repo  branch: $Branch"
+    Write-Host "3. Secrets when prompted:"
+    Write-Host "     JWT_SECRET"
+    Write-Host "     BOOTSTRAP_USER_PASSWORD"
+    Write-Host "     GEMINI_API_KEY"
+    Write-Host ""
+    Write-Host "Waiting for knowledge-base-api service (poll up to 30 min)..."
+    $deadline = (Get-Date).AddMinutes(30)
+    while ((Get-Date) -lt $deadline) {
+        $services = Invoke-RestMethod -Uri "https://api.render.com/v1/services?limit=50" -Headers $headers
+        $existing = $services | Where-Object { $_.service.name -eq "knowledge-base-api" } | Select-Object -First 1
+        if ($existing) { break }
+        Start-Sleep -Seconds 30
+    }
     if (-not $existing) {
-        throw "API service not visible yet. Check Render dashboard — first deploy can take 10-15 minutes."
+        throw "API service not found yet. Finish Blueprint setup in the dashboard, then re-run this script."
     }
     $apiUrl = "https://$($existing.service.serviceDetails.url)"
 }
@@ -108,4 +108,4 @@ Write-Host "Done."
 Write-Host "  Frontend: $VercelUrl"
 Write-Host "  Backend:  $apiUrl"
 Write-Host "  Health:   $apiUrl/api/health"
-Write-Host "First boot runs DB migrate + ingest (10-20 min). Check Render logs."
+    Write-Host "First boot runs DB migrate and ingest (5-10 minutes on free tier). Check Render logs."

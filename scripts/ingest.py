@@ -8,17 +8,19 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from backend.config import DOCUMENTS_DIR
-from backend.services.embedder import ensure_collection, prune_points_for_missing_documents
+from backend.config import DOCUMENTS_DIR, VECTOR_SEARCH_ENABLED
 from backend.services.bm25_index import create_bm25_index
 from backend.services.document_lifecycle import (
     active_upload_entries,
     deactivate_missing_manifest_documents,
 )
-from backend.services.ingest_service import ingest_document_entry
+from backend.services.ingest_service import canonicalize_manifest_entry, ingest_document_entry
 from backend.services.document_storage import get_document_storage
 from backend.models import Document
 from backend.database import SessionLocal
+
+if VECTOR_SEARCH_ENABLED:
+    from backend.services.embedder import ensure_collection, prune_points_for_missing_documents
 
 
 def load_manifest() -> list[dict]:
@@ -35,7 +37,8 @@ def ingest_all():
     manifest = load_manifest()
     print(f"Found {len(manifest)} documents in manifest.\n")
 
-    ensure_collection()
+    if VECTOR_SEARCH_ENABLED:
+        ensure_collection()
     create_bm25_index()
 
     db = SessionLocal()
@@ -49,7 +52,7 @@ def ingest_all():
     try:
         upload_entries = active_upload_entries(db)
         entries = [
-            {**entry, "source_kind": "manifest"}
+            {**canonicalize_manifest_entry(entry), "source_kind": "manifest"}
             for entry in manifest
         ] + upload_entries
 
@@ -67,9 +70,10 @@ def ingest_all():
                     db=db,
                     source_file_path=source_file_path,
                 )
+                label = "BM25" if not VECTOR_SEARCH_ENABLED else "Qdrant + BM25"
                 print(
                     f"    → {result['chunks_indexed']} chunks "
-                    f"({result['file_type']}) → Qdrant + BM25"
+                    f"({result['file_type']}) → {label}"
                 )
                 total_chunks += result["chunks_indexed"]
                 success_count += 1
@@ -83,7 +87,7 @@ def ingest_all():
             print()
 
         stale_points_removed = 0
-        if success_count == len(entries):
+        if VECTOR_SEARCH_ENABLED and success_count == len(entries):
             deactivate_missing_manifest_documents(db, active_manifest_doc_ids)
             db.commit()
             active_doc_ids = {
@@ -93,6 +97,9 @@ def ingest_all():
                 .all()
             }
             stale_points_removed = prune_points_for_missing_documents(active_doc_ids)
+        elif success_count == len(entries):
+            deactivate_missing_manifest_documents(db, active_manifest_doc_ids)
+            db.commit()
     finally:
         db.close()
 

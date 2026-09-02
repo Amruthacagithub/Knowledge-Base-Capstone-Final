@@ -19,6 +19,7 @@ from backend.services.planned_retrieval import (
 from backend.services.graph_retrieval import retrieve_graph_candidates
 from backend.config import (
     EVIDENCE_GRAPH_ENABLED,
+    RERANKER_ENABLED,
     SEARCH_RATE_LIMIT_PER_MINUTE,
     TEMPORAL_API_ENABLED,
 )
@@ -27,8 +28,15 @@ from backend.services.temporal_search import retrieve_temporal_candidates
 from backend.services.audit import log_search
 from backend.services.query_trace import stage_query_trace
 from backend.services.rate_limit import rate_limiter
+from backend.services.sensitive_topics import blocks_sensitive_search
 
 router = APIRouter(prefix="/api", tags=["search"])
+
+
+def _rank_candidates(query: str, candidates: list[dict], top_n: int) -> list[dict]:
+    if RERANKER_ENABLED:
+        return rerank(query=query, candidates=candidates, top_n=top_n)
+    return candidates[:top_n]
 
 
 class SearchRequest(BaseModel):
@@ -133,35 +141,40 @@ def search(req: SearchRequest, authorization: Annotated[str, Header()]):
         )
     query_plan = plan_query(req.query)
 
-    # Search
-    candidates, query_type = retrieve_for_plan(
-        req.query,
-        user_ctx,
-        req.department_filter,
-        query_plan,
-        search_fn=hybrid_search,
-    )
     trace_ids = []
-    if EVIDENCE_GRAPH_ENABLED and query_plan.route == "multi_hop":
-        db = SessionLocal()
-        try:
-            graph_result = retrieve_graph_candidates(db, user_ctx, req.query)
-            db.commit()
-        finally:
-            db.close()
-        candidates = merge_authorized_candidates(
-            candidates,
-            list(graph_result.candidates),
+    if blocks_sensitive_search(user_ctx, req.query):
+        candidates = []
+        query_type = "sensitive_blocked"
+        retrieval_ms = 0
+    else:
+        # Search
+        candidates, query_type = retrieve_for_plan(
+            req.query,
+            user_ctx,
+            req.department_filter,
+            query_plan,
+            search_fn=hybrid_search,
         )
-        trace_ids = list(graph_result.trace_ids)
-    if TEMPORAL_API_ENABLED and query_plan.route == "temporal":
-        db = SessionLocal()
-        try:
-            temporal_candidates = retrieve_temporal_candidates(db, user_ctx, req.query)
-        finally:
-            db.close()
-        candidates = merge_authorized_candidates(candidates, temporal_candidates)
-    retrieval_ms = _elapsed_ms(start)
+        if EVIDENCE_GRAPH_ENABLED and query_plan.route == "multi_hop":
+            db = SessionLocal()
+            try:
+                graph_result = retrieve_graph_candidates(db, user_ctx, req.query)
+                db.commit()
+            finally:
+                db.close()
+            candidates = merge_authorized_candidates(
+                candidates,
+                list(graph_result.candidates),
+            )
+            trace_ids = list(graph_result.trace_ids)
+        if TEMPORAL_API_ENABLED and query_plan.route == "temporal":
+            db = SessionLocal()
+            try:
+                temporal_candidates = retrieve_temporal_candidates(db, user_ctx, req.query)
+            finally:
+                db.close()
+            candidates = merge_authorized_candidates(candidates, temporal_candidates)
+        retrieval_ms = _elapsed_ms(start)
 
     if not candidates:
         elapsed_ms = _elapsed_ms(start)
@@ -204,8 +217,8 @@ def search(req: SearchRequest, authorization: Annotated[str, Header()]):
 
     # Rerank
     rerank_start = time.perf_counter()
-    ranked = rerank(query=req.query, candidates=candidates, top_n=8)
-    rerank_ms = _elapsed_ms(rerank_start)
+    ranked = _rank_candidates(query=req.query, candidates=candidates, top_n=8)
+    rerank_ms = _elapsed_ms(rerank_start) if RERANKER_ENABLED else 0
 
     # Generate answer
     def corrective_retriever(claim_query: str) -> list[dict]:
@@ -214,7 +227,7 @@ def search(req: SearchRequest, authorization: Annotated[str, Header()]):
             user_ctx=user_ctx,
             department_filter=req.department_filter,
         )
-        return rerank(
+        return _rank_candidates(
             query=claim_query,
             candidates=corrective_candidates,
             top_n=4,

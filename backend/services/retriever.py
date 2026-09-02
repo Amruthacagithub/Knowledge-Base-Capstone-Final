@@ -1,11 +1,14 @@
 """
 Hybrid retriever — combines vector search and BM25 keyword search.
 """
-from backend.services.embedder import vector_search
+from backend.config import VECTOR_SEARCH_ENABLED
 from backend.services.bm25_index import keyword_search
 from backend.services.permissions import build_permission_filter, filter_bm25_results
 from backend.services.auth import UserContext
 from backend.services.query_router import classify_query, alpha_for_query_type
+
+if VECTOR_SEARCH_ENABLED:
+    from backend.services.embedder import vector_search
 
 
 def hybrid_search(
@@ -30,17 +33,16 @@ def hybrid_search(
     """
     query_type = classify_query(query)
     if alpha is None:
-        alpha = alpha_for_query_type(query_type)
+        alpha = 0.0 if not VECTOR_SEARCH_ENABLED else alpha_for_query_type(query_type)
 
-    # Build Qdrant permission filter
-    qdrant_filter = build_permission_filter(user_ctx)
-
-    # Vector search (with permission filter applied server-side)
-    vec_results = vector_search(
-        query=query,
-        qdrant_filter=qdrant_filter,
-        top_k=top_k,
-    )
+    vec_results: list[dict] = []
+    if VECTOR_SEARCH_ENABLED:
+        qdrant_filter = build_permission_filter(user_ctx)
+        vec_results = vector_search(
+            query=query,
+            qdrant_filter=qdrant_filter,
+            top_k=top_k,
+        )
 
     # BM25 keyword search
     bm25_results = keyword_search(

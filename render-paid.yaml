@@ -1,25 +1,40 @@
-# Render free tier — Postgres + Python web (BM25 + Gemini; no paid Qdrant/ML).
+# Paid Render stack (API + Postgres + private Qdrant). Requires payment method on file.
 databases:
   - name: knowledge-base-db
-    plan: free
+    plan: basic-256mb
     databaseName: trust_rag
     user: trust_rag
 
 services:
+  - type: pserv
+    name: knowledge-base-qdrant
+    runtime: image
+    image:
+      url: docker.io/qdrant/qdrant:v1.12.5
+    plan: starter
+    disk:
+      name: qdrant-data
+      mountPath: /qdrant/storage
+      sizeGB: 1
+
   - type: web
     name: knowledge-base-api
-    runtime: python
-    plan: free
-    buildCommand: pip install -r requirements-render-free.txt
-    startCommand: sh scripts/start_cloudrun.sh
+    runtime: docker
+    dockerfilePath: ./Dockerfile
+    plan: starter
     healthCheckPath: /api/health
     envVars:
-      - key: PYTHON_VERSION
-        value: "3.11.11"
       - key: DATABASE_URL
         fromDatabase:
           name: knowledge-base-db
           property: connectionString
+      - key: QDRANT_HOST
+        fromService:
+          name: knowledge-base-qdrant
+          type: pserv
+          property: host
+      - key: QDRANT_PORT
+        value: "6333"
       - key: JWT_SECRET
         sync: false
       - key: BOOTSTRAP_USER_PASSWORD
@@ -32,14 +47,12 @@ services:
         value: "*"
       - key: AUTH_MODE
         value: password
+      - key: MODEL_DEVICE
+        value: cpu
       - key: DOCUMENT_STORAGE_BACKEND
         value: local
       - key: RUN_INGEST_ON_STARTUP
         value: "true"
-      - key: VECTOR_SEARCH_ENABLED
-        value: "false"
-      - key: RERANKER_ENABLED
-        value: "false"
       - key: EVIDENCE_EXTRACTION_ENABLED
         value: "false"
       - key: EVIDENCE_GRAPH_ENABLED

@@ -68,7 +68,10 @@ if not 5 <= ACCESS_TOKEN_MINUTES <= 1440:
 BOOTSTRAP_USER_PASSWORD = os.getenv("BOOTSTRAP_USER_PASSWORD", "")
 
 # CORS — comma-separated origins (add your Vercel URL in production)
-_default_cors = "http://localhost:5173,http://localhost:3000,http://127.0.0.1:5173"
+_default_cors = (
+    "http://localhost:5173,http://localhost:5174,"
+    "http://127.0.0.1:5173,http://127.0.0.1:5174,http://localhost:3000"
+)
 CORS_ORIGINS = os.getenv("CORS_ORIGINS", _default_cors)
 ALLOWED_HOSTS = os.getenv(
     "ALLOWED_HOSTS",
@@ -128,6 +131,16 @@ TEMPORAL_API_ENABLED = os.getenv(
 CLAIM_VERIFICATION_ENABLED = os.getenv(
     "CLAIM_VERIFICATION_ENABLED",
     "false",
+).strip().lower() in {"1", "true", "yes", "on"}
+
+# Cloud free tier: disable vector search / reranker to avoid torch on 512MB instances.
+VECTOR_SEARCH_ENABLED = os.getenv(
+    "VECTOR_SEARCH_ENABLED",
+    "true",
+).strip().lower() in {"1", "true", "yes", "on"}
+RERANKER_ENABLED = os.getenv(
+    "RERANKER_ENABLED",
+    "true",
 ).strip().lower() in {"1", "true", "yes", "on"}
 
 
