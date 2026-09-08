@@ -243,7 +243,7 @@ project/
 | Doc | Purpose |
 |-----|---------|
 | [ARCHITECTURE.md](docs/ARCHITECTURE.md) | Components, data flow, data model, and security controls |
-| [DEMO.md](docs/DEMO.md) | Short, reliable presentation walkthrough |
+| [DEMO.md] (https://drive.google.com/file/d/1AVdn91lixrhHwGmzBB7ncTIAse3Hz6u4/view?usp=drive_link) | Short, reliable presentation walkthrough |
 | [EVALUATION.md](docs/EVALUATION.md) | Validation commands, results, and known limits |
 | [LOCAL_CPU_SETUP.md](docs/LOCAL_CPU_SETUP.md) | Detailed CPU-only setup and local-stack troubleshooting |
 | [LOCAL_SECURITY.md](docs/LOCAL_SECURITY.md) | Local security scope, authentication, and repository hygiene |
